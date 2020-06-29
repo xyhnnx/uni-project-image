@@ -42,6 +42,11 @@
 				<text class="list-text">账号管理</text>
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
+			<view class="center-list-item" @click="goTest">
+				<text class="list-icon">&#xe609;</text>
+				<text class="list-text">test</text>
+				<text class="navigat-arrow">&#xe65e;</text>
+			</view>
 		</view>
 	</view>
 </template>
@@ -66,6 +71,11 @@
 			goAbout() {
 				uni.navigateTo({
 					url: '/pages/about/about'
+				});
+			},
+			goTest () {
+				uni.navigateTo({
+					url: '/pages/test/test'
 				});
 			}
 		}

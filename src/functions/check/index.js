@@ -1,11 +1,14 @@
 // 云函数入口文件
 const cloud = require('wx-server-sdk')
 
-cloud.init()
+cloud.init({
+  env: cloud.DYNAMIC_CURRENT_ENV
+})
 
 // 云函数入口函数
 exports.main = async(event, context) => {
   try {
+    console.log('cloud.DYNAMIC_CURRENT_ENV=',cloud.DYNAMIC_CURRENT_ENV)
     console.log('待检测文本:' + event.content);
     let result = await cloud.openapi.security.msgSecCheck({
       content: event.content

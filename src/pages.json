@@ -67,6 +67,12 @@
 		{
 			"path": "pages/about/about",
 			"style": {}
+		},
+		{
+			"path": "pages/test/test",
+			"style": {
+				"navigationBarTitleText": "xyhTest"
+			}
 		}
 	],
 	"globalStyle": {
