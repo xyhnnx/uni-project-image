@@ -17,6 +17,8 @@
 	"quickapp": {},
 	// 快应用特有相关
 	"mp-weixin": {
+		"appid" : "wxdeca305114732d6e",
+		"cloudfunctionRoot": "./functions/",
 		"setting": {
 			"urlCheck": false
 		},
