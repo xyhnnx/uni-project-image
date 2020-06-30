@@ -8,6 +8,7 @@
 		</view>
 		<view class="button-view">
 			<button type="default" class="login" hover-class="hover" formType="submit">checkText</button>
+			<button type="default" class="login" hover-class="hover" @click="addData">add</button>
 		</view>
 	</form>
 </template>
@@ -26,6 +27,27 @@
 					name: 'check',
 					data: {
 						"content": text
+					}
+				}).then(res => {
+					console.log('res',res)
+					uni.showToast(
+							{
+								title: res.result.msg,
+								icon: 'none',
+							}
+					);
+				})
+			},
+			addData () {
+				wx.cloud.init()                              //调用前需先调用init
+				wx.cloud.callFunction({
+					name: 'addImageType',
+					data: {
+						imageTypeList: [
+							{
+								"name": 'test-xyh'
+							}
+						]
 					}
 				}).then(res => {
 					console.log('res',res)
