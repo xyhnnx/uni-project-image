@@ -1,11 +1,12 @@
+const env = 'test-xyh'
 // 云函数入口文件
 const cloud = require('wx-server-sdk')
 
 cloud.init({
-  env: 'test-xyh'
+  env
 })
 const db = cloud.database({
-  env: 'test-xyh'
+  env
 })
 
 // 云函数入口函数

@@ -86,6 +86,26 @@
 			this.getData();
 		},
 		methods: {
+			addDataToCould (list) {
+				console.log(list)
+				wx.cloud.init()                              //调用前需先调用init
+				wx.cloud.callFunction({
+					name: 'addDataToCould',
+					data: {
+						dbName: 'imageItemList',
+						primaryKey: 'id',
+						list
+					}
+				}).then(res => {
+					console.log('res',res)
+					uni.showToast(
+							{
+								title: `添加数量${res.result.data.addCount}条`,
+								icon: 'none',
+							}
+					);
+				})
+			},
 			getData(e) {
 				uni.request({
 					url: this.$serverUrl + '/api/picture/list.php?type=' + this.id,
@@ -96,7 +116,7 @@
 						}
 
 						const data = ret.data.data;
-
+						// this.addDataToCould(data);
 						if (this.refreshing && data[0].id === this.dataList[0].id) {
 							uni.showToast({
 								title: '已经最新',
@@ -174,7 +194,7 @@
 					}
 				});
 			}
-		}
+		},
 	}
 </script>
 
