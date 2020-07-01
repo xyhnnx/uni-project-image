@@ -9,7 +9,7 @@ const db = cloud.database({
   env
 })
 
-// 云函数入口函数
+// 云函数入口函数 142xyh753869
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
   let addCount = 0

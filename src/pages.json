@@ -73,6 +73,12 @@
 			"style": {
 				"navigationBarTitleText": "xyhTest"
 			}
+		},
+		{
+			"path": "pages/image-upload/image-upload",
+			"style": {
+				"navigationBarTitleText": "上传图片"
+			}
 		}
 	],
 	"globalStyle": {

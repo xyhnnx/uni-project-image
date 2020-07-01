@@ -25,7 +25,7 @@
 				<text class="list-text">管理图片</text>
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
-			<view class="center-list-item">
+			<view class="center-list-item" @click="goUploadImg">
 				<text class="list-icon">&#xe61a;</text>
 				<text class="list-text">上传图片</text>
 				<text class="navigat-arrow">&#xe65e;</text>
@@ -76,6 +76,12 @@
 			goTest () {
 				uni.navigateTo({
 					url: '/pages/test/test'
+				});
+			},
+			// s是
+			goUploadImg () {
+				uni.navigateTo({
+					url: '/pages/image-upload/image-upload'
 				});
 			}
 		}
