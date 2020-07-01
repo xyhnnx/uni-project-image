@@ -52,6 +52,7 @@
 							}
 							// 保存到数据库
 							let res = await this.addDataToCould(uploadList);
+
 							if(res.result.status === 0) {
 								uni.showToast(
 										{
@@ -68,7 +69,9 @@
 									}
 							);
 						}finally {
-							uni.hideLoading()
+							setTimeout(()=>{
+								uni.hideLoading()
+							}, 1000)
 						}
 
 

@@ -26,10 +26,12 @@
 				loadMoreText: '加载中...',
 				dataList: [],
 				id: 0,
+				imageType: 0,
 				fetchPageNum: 0
 			}
 		},
 		onLoad(e) {
+			this.imageType = Number(e.imageType);
 			uni.setNavigationBarTitle({
 				title: '专题：' + e.type
 			});
@@ -106,46 +108,68 @@
 					);
 				})
 			},
-			getData(e) {
-				uni.request({
-					url: this.$serverUrl + '/api/picture/list.php?type=' + this.id,
-					success: (ret) => {
-						if (ret.statusCode !== 200) {
-							console.log('请求失败', ret)
-							return;
-						}
+			async getData(e) {
+				// 先根据微信名nickName分组
+				const db = wx.cloud.database()
+				// uni.request({
+				// 	url: this.$serverUrl + '/api/picture/list.php?type=' + this.id,
+				// 	success: (ret) =>
+				// });
+				let ret = {};
+				if(this.imageType === 2) { // 用户图片
+					ret = await db.collection('userImageList').where({
+						nickName: this.id
+					}).limit(100).get();
+				}else{
+					ret = await db.collection('imageItemList').where({
+						title: this.id
+					}).limit(100).get();
+				}
+				console.log('ret==', ret)
+				// errMsg: "collection.get:ok"
+				if (ret.errMsg !== 'collection.get:ok') {
+					console.log('请求失败', ret)
+					return;
+				}
 
-						const data = ret.data.data;
-						// this.addDataToCould(data);
-						if (this.refreshing && data[0].id === this.dataList[0].id) {
-							uni.showToast({
-								title: '已经最新',
-								icon: 'none',
-							});
-							this.refreshing = false;
-							uni.stopPullDownRefresh();
-							return;
-						}
+				const data = ret.data;
+				// this.addDataToCould(data);
+				if (this.refreshing && data[0]._id === this.dataList[0]._id) {
+					uni.showToast({
+						title: '已经最新',
+						icon: 'none',
+					});
+					this.refreshing = false;
+					uni.stopPullDownRefresh();
+					return;
+				}
 
-						let list = [];
-						for (var i = 0; i < data.length; i++) {
-							var item = data[i];
-							item.guid = this.newGuid() + item.id
-							list.push(item);
-						}
-
-						if (this.refreshing) {
-							this.refreshing = false;
-							uni.stopPullDownRefresh();
-							this.dataList = list;
-							this.fetchPageNum = 2;
-						} else {
-							this.dataList = this.dataList.concat(list);
-							this.fetchPageNum += 1;
-						}
-						this.fetchPageNum += 1;
+				let list = [];
+				for (var i = 0; i < data.length; i++) {
+					var item = data[i];
+					item.guid = this.newGuid() + item._id
+					if(this.imageType === 2) {
+						list.push({
+							guid: item.guid,
+							img_src: item.fileID,
+							img_num: 1,
+							title: item.nickName,
+						});
+					} else{
+						list.push(item);
 					}
-				});
+				}
+
+				if (this.refreshing) {
+					this.refreshing = false;
+					uni.stopPullDownRefresh();
+					this.dataList = list;
+					this.fetchPageNum = 2;
+				} else {
+					this.dataList = this.dataList.concat(list);
+					this.fetchPageNum += 1;
+				}
+				this.fetchPageNum += 1;
 			},
 			newGuid() {
 				let s4 = function() {
