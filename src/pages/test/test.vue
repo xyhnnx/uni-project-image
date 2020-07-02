@@ -1,16 +1,26 @@
 <template>
-	<form class='loginView' @submit="checkText">
-		<view class="input-view">
-			<view class="label-view">
-				<text class="label">文字 </text>
-			</view>
-			<input class="input" type="text" placeholder="请输入文字check" name="checkValue" />
+	<view class="page-view">
+
+		<view>
+			<form @submit="checkText" :report-submit="true">
+				<view class="padding10">
+					<view class="label-view">
+						<text class="label">文字 </text>
+					</view>
+					<input class="input" type="text" placeholder="请输入文字check" name="checkValue" />
+				</view>
+				<view class="button-view">
+					<button type="default" class="login" hover-class="hover" formType="submit">checkText</button>
+					<view class="height10"></view>
+					<button type="default" class="login" hover-class="hover" @click="addData">add</button>
+				</view>
+			</form>
 		</view>
-		<view class="button-view">
-			<button type="default" class="login" hover-class="hover" formType="submit">checkText</button>
-			<button type="default" class="login" hover-class="hover" @click="addData">add</button>
-		</view>
-	</form>
+		<view class="height10"></view>
+		<form @submit="messageSend" :report-submit="true">
+			<button type="default" class="login" hover-class="hover" formType="submit">消息通知</button>
+		</form>
+	</view>
 </template>
 
 <script>
@@ -19,7 +29,27 @@
 			return {};
 		},
 		methods: {
+			messageSend(e) {
+				console.log(e)
+				let formId = e.detail.formId;
+				wx.cloud.init()                              //调用前需先调用init
+				wx.cloud.callFunction({
+					name: 'sendMessage',
+					data: {
+						formId
+					}
+				}).then(res => {
+					console.log('res',res)
+					uni.showToast(
+							{
+								title: res.result.errMsg,
+								icon: 'none',
+							}
+					);
+				})
+			},
 			checkText(e) {
+				console.log(e)
 				let text = e.detail.value.checkValue
 				console.log("文字:"+ text)
 				wx.cloud.init()                              //调用前需先调用init
@@ -66,6 +96,15 @@
 	}
 </script>
 
-<style>
-
+<style scoped>
+.page-view{
+	display: flex;
+	flex-direction: column;
+}
+.height10{
+	height: 10px;
+}
+.padding10{
+	padding: 10px;
+}
 </style>

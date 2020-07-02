@@ -7,6 +7,12 @@
             traceUser: true
           }) //调用前需先调用init
           console.log('wx.cloud.init()')
+          wx.cloud.callFunction({
+            name: 'addUserInfo',
+            data: {}
+          }).then(res => {
+            console.log('res',res)
+          })
 		},
 		onShow: function() {
 			console.log('App Show')

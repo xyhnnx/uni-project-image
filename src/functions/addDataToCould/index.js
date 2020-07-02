@@ -28,6 +28,7 @@ exports.main = async (event, context) => {
           // data 字段表示需新增的 JSON 数据
           data: {
             ...item,
+            openId: wxContext.OPENID,
             createTime: new Date(),
             location: new db.Geo.Point(113, 23),
           }
