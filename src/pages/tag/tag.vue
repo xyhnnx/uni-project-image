@@ -58,12 +58,12 @@
 				}
 			},
 			async getUserImageData() {
-				// 先根据微信名nickName分组
+				// 先根据微信名openId分组
 				const db = wx.cloud.database()
 				const $ = db.command.aggregate
 				let res =  await db.collection('userImageList').aggregate()
 				.group({
-					_id: '$nickName',
+					_id: '$openId',
 					num: $.sum(1)
 				})
 				.end()
@@ -74,13 +74,13 @@
 					for(let i = 0;i< res.list.length;i++) {
 						let item = res.list[i]
 						let res2 = await db.collection('userImageList').where({
-							nickName: item._id
+							openId: item._id
 						}).limit(1).get()
 						console.log(res2);
 						let data = res2.data[0]
 						list2.push({
 							type: data.nickName,
-							id: data.nickName,
+							id: data.openId,
 							icon: data.avatarUrl,
 							imageType: 2
 						})

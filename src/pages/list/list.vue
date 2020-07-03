@@ -27,7 +27,9 @@
 				dataList: [],
 				id: 0,
 				imageType: 0,
-				fetchPageNum: 0
+				totalCount: 0,
+				fetchPageNum: 0,
+				fetchPageSize: 5
 			}
 		},
 		onLoad(e) {
@@ -80,8 +82,8 @@
 			this.getData();
 		},
 		onReachBottom() {
-			console.log('上拉加载刷新');
-			if (this.fetchPageNum > 4) {
+			console.log('上拉加载刷新',this.totalCount,this.fetchPageNum);
+			if ((this.fetchPageNum) *this.fetchPageSize >= this.totalCount ) {
 				this.loadMoreText = '没有更多了'
 				return;
 			}
@@ -89,7 +91,6 @@
 		},
 		methods: {
 			addDataToCould (list) {
-				console.log(list)
 				wx.cloud.init()                              //调用前需先调用init
 				wx.cloud.callFunction({
 					name: 'addDataToCould',
@@ -99,7 +100,6 @@
 						list
 					}
 				}).then(res => {
-					console.log('res',res)
 					uni.showToast(
 							{
 								title: `添加数量${res.result.data.addCount}条`,
@@ -109,6 +109,12 @@
 				})
 			},
 			async getData(e) {
+				console.log(`
+				--getData--
+				this.imageType=${this.imageType}
+				this.fetchPageNum=${this.fetchPageNum}
+				this.fetchPageSize=${this.fetchPageSize}
+				`)
 				// 先根据微信名nickName分组
 				const db = wx.cloud.database()
 				// uni.request({
@@ -117,23 +123,38 @@
 				// });
 				let ret = {};
 				if(this.imageType === 2) { // 用户图片
-					ret = await db.collection('userImageList').where({
-						nickName: this.id
-					}).limit(100).get();
+					ret = await wx.cloud.callFunction({
+						name: 'getDbListData',
+						data: {
+							dbName: 'userImageList',
+							pageNo: this.fetchPageNum + 1,
+							pageSize: this.fetchPageSize,
+							params: {
+								openId: this.id
+							}
+						}
+					})
 				}else{
-					ret = await db.collection('imageItemList').where({
-						title: this.id
-					}).limit(100).get();
+					ret = await wx.cloud.callFunction({
+						name: 'getDbListData',
+						data: {
+							dbName: 'imageItemList',
+							pageNo: this.fetchPageNum + 1,
+							pageSize: this.fetchPageSize,
+							params: {
+								title: this.id
+							}
+						}
+					})
 				}
-				console.log('ret==', ret)
 				// errMsg: "collection.get:ok"
-				if (ret.errMsg !== 'collection.get:ok') {
+				if (ret.errMsg !== 'cloud.callFunction:ok') {
 					console.log('请求失败', ret)
 					return;
 				}
+				this.totalCount = ret.result.totalCount
+				const data = ret.result.data;
 
-				const data = ret.data;
-				// this.addDataToCould(data);
 				if (this.refreshing && data[0]._id === this.dataList[0]._id) {
 					uni.showToast({
 						title: '已经最新',
@@ -164,12 +185,11 @@
 					this.refreshing = false;
 					uni.stopPullDownRefresh();
 					this.dataList = list;
-					this.fetchPageNum = 2;
+					this.fetchPageNum = 0;
 				} else {
 					this.dataList = this.dataList.concat(list);
 					this.fetchPageNum += 1;
 				}
-				this.fetchPageNum += 1;
 			},
 			newGuid() {
 				let s4 = function() {
