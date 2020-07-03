@@ -2,7 +2,7 @@
 	<view class="grid">
 		<view class="grid-c-06" v-for="item in dataList" :key="item.guid">
 			<view class="panel" @click="goDetail(item)">
-				<image class="card-img card-list2-img" :src="item.img_src"></image>
+				<image class="card-img card-list2-img" mode="aspectFill" :src="item.img_src"></image>
 				<text class="card-num-view card-list2-num-view">{{item.img_num}}P</text>
 				<view class="card-bottm row">
 					<view class="car-title-view row">
@@ -79,6 +79,7 @@
 		onPullDownRefresh() {
 			console.log('下拉刷新');
 			this.refreshing = true;
+			this.fetchPageNum = 0;
 			this.getData();
 		},
 		onReachBottom() {
@@ -109,12 +110,6 @@
 				})
 			},
 			async getData(e) {
-				console.log(`
-				--getData--
-				this.imageType=${this.imageType}
-				this.fetchPageNum=${this.fetchPageNum}
-				this.fetchPageSize=${this.fetchPageSize}
-				`)
 				// 先根据微信名nickName分组
 				const db = wx.cloud.database()
 				// uni.request({
@@ -185,7 +180,6 @@
 					this.refreshing = false;
 					uni.stopPullDownRefresh();
 					this.dataList = list;
-					this.fetchPageNum = 0;
 				} else {
 					this.dataList = this.dataList.concat(list);
 					this.fetchPageNum += 1;

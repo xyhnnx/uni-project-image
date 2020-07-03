@@ -60,24 +60,18 @@
 			async getUserImageData() {
 				// 先根据微信名openId分组
 				const db = wx.cloud.database()
-				const $ = db.command.aggregate
-				let res =  await db.collection('userImageList').aggregate()
-				.group({
-					_id: '$openId',
-					num: $.sum(1)
+				let ret = await wx.cloud.callFunction({
+					name: 'getImageUser',
+					data: {
+					}
 				})
-				.end()
-				console.log(res)
+				console.log(ret);
+				let result = ret.result
 				// 再每组取一条数据
-				if(res && res.list && res.list.length) {
+				if(result && result.data && result.data.length) {
 					let list2 = []
-					for(let i = 0;i< res.list.length;i++) {
-						let item = res.list[i]
-						let res2 = await db.collection('userImageList').where({
-							openId: item._id
-						}).limit(1).get()
-						console.log(res2);
-						let data = res2.data[0]
+					for(let i = 0;i< result.data.length;i++) {
+						let data = result.data[i]
 						list2.push({
 							type: data.nickName,
 							id: data.openId,

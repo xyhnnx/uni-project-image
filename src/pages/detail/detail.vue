@@ -2,7 +2,7 @@
 	<view class="index">
 		<swiper @change="swpierChange" :style="{height:screenHeight + 'px'}">
 			<swiper-item v-for="(value,index) in data" :key="value" @click="preImg(index)">
-				<image :src="value" mode="widthFix"></image>
+				<image :src="value" mode="aspectFill"></image>
 			</swiper-item>
 		</swiper>
 		<!-- #ifndef H5 -->
@@ -213,7 +213,7 @@
 				})
 			},
 			preImg(index) {
-				if (this.imgShow) { //防止点击过快导致重复调用 
+				if (this.imgShow) { //防止点击过快导致重复调用
 					return;
 				}
 				this.imgShow = true;
