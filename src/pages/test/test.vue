@@ -13,6 +13,7 @@
 					<button type="default" class="login" hover-class="hover" formType="submit">checkText</button>
 					<view class="height10"></view>
 					<button type="default" class="login" hover-class="hover" @click="addData">add</button>
+					<button type="default" class="login" hover-class="hover" @click="getSearchImg">getSearchImg</button>
 				</view>
 			</form>
 		</view>
@@ -88,6 +89,24 @@
 							}
 					);
 				})
+			},
+			getSearchImg () {
+				wx.cloud.init()                              //调用前需先调用init
+				wx.cloud.callFunction({
+					name: 'getSearchImg',
+					data: {
+						search: '美女'
+					}
+				}).then(res => {
+					console.log('res',res)
+					uni.showToast(
+							{
+								title: res.result.msg,
+								icon: 'none',
+							}
+					);
+				})
+
 			}
 		},
 		onLoad() {
