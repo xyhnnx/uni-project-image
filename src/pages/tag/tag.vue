@@ -8,6 +8,10 @@
 				</view>
 			</block>
 		</view>
+		<view class="search-box">
+			<input class="input" type="text" placeholder="请输入图片搜索" @change="inputChange" name="checkValue" />
+			<button type="default" class="login" hover-class="hover" @click="searchClick">搜索</button>
+		</view>
 	</view>
 </template>
 
@@ -15,7 +19,8 @@
 	export default {
 		data() {
 			return {
-				data: []
+				data: [],
+				search: '美女'
 			}
 		},
 		methods: {
@@ -83,6 +88,16 @@
 					this.data.push(...list2)
 
 				}
+			},
+			inputChange (e) {
+				console.log(e)
+				this.search = e.detail.value
+			},
+			searchClick () {
+				console.log('searchClick')
+				uni.navigateTo({
+					url: '/pages/img-search-list/img-search-list?search=' + this.search
+				})
 			}
 		},
 		onLoad() {
@@ -92,6 +107,10 @@
 	}
 </script>
 
-<style>
-
+<style scoped >
+.search-box {
+	display: flex;
+	flex-direction: column;
+	padding-bottom: 10px;
+}
 </style>

@@ -22,12 +22,13 @@ async function getSearchImg(params = {}) {
 // 云函数入口函数
 exports.main = async (event, context) => {
   try {
+    let {search,pageNo, pageSize} = event;
     // const wxContext = cloud.getWXContext()
     // // 示例：请求一个 npm 模块信息
     const result = await getSearchImg({
-      word: '美女',
-      rn: 10, // pageSize
-      pn: 0 // 第几个开始跳
+      word: search,
+      rn: pageSize, // pageSize
+      pn: (pageNo-1) * pageSize// 第几个开始跳
     })
     let arr = []
     result.data.forEach(e => {
