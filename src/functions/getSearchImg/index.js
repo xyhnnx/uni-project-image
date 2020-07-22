@@ -22,8 +22,8 @@ async function getSearchImg(params = {}) {
 // 云函数入口函数
 exports.main = async (event, context) => {
   try {
-    let {search,pageNo, pageSize} = event;
-    // const wxContext = cloud.getWXContext()
+    let {saveToHistory = true, search,pageNo, pageSize} = event;
+    const wxContext = cloud.getWXContext()
     // // 示例：请求一个 npm 模块信息
     const result = await getSearchImg({
       word: search,
@@ -37,10 +37,28 @@ exports.main = async (event, context) => {
           {
             src: e.hoverURL,
             desc: e.fromPageTitleEnc,
+            search,
+            openId: wxContext.OPENID,
           }
         )
       }
     })
+    // 保持到搜索歷史
+    if(saveToHistory) {
+      cloud.callFunction({
+        // 需调用的云函数名
+        name: 'addDataToCould',
+        // 传给云函数的参数
+        data: {
+          dbName: 'userSearchImgHistory',
+          primaryKey: 'src',
+          list:arr
+        },
+        // 成功回调
+        complete: console.log
+      })
+    }
+
     return {
       data: arr,
       status: 0,

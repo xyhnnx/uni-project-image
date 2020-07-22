@@ -27,10 +27,10 @@ exports.main = async (event, context) => {
         await db.collection(dbName).add({
           // data 字段表示需新增的 JSON 数据
           data: {
-            ...item,
             openId: wxContext.OPENID,
             createTime: new Date(),
             location: new db.Geo.Point(113, 23),
+            ...item,
           }
         })
         addCount ++
