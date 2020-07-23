@@ -1,9 +1,9 @@
 <template>
 	<view class="grid">
-		<view class="grid-c-06" v-for="item in dataList" :key="item.guid">
-			<view class="panel" @click="goDetail(item)">
+		<view class="grid-c-06" v-for="(item, index) in dataList" :key="item.guid">
+			<view class="panel" @click="goDetail(item)" @longpress="imgLongpress(item, index)">
 				<image class="card-img card-list2-img" mode="aspectFill" :src="item.img_src"></image>
-				<text class="card-num-view card-list2-num-view">{{item.img_num}}P</text>
+				<text class="card-num-view card-list2-num-view"></text>
 				<view class="card-bottm row">
 					<view class="car-title-view row">
 						<text class="card-title card-list2-title">{{item.title}}</text>
@@ -84,7 +84,7 @@
 		},
 		onReachBottom() {
 			console.log('上拉加载刷新',this.totalCount,this.fetchPageNum);
-			if ((this.fetchPageNum) *this.fetchPageSize >= this.totalCount ) {
+			if ((this.fetchPageNum) *this.fetchPageSize >= this.totalCount || this.dataList.length >= this.totalCount) {
 				this.loadMoreText = '没有更多了'
 				return;
 			}
@@ -169,6 +169,7 @@
 							guid: item.guid,
 							img_src: item.fileID,
 							img_num: 1,
+							_id: item._id,
 							title: item.nickName,
 						});
 					} else{
@@ -190,6 +191,44 @@
 					return (65536 * (1 + Math.random()) | 0).toString(16).substring(1);
 				}
 				return (s4() + s4() + "-" + s4() + "-4" + s4().substr(0, 3) + "-" + s4() + "-" + s4() + s4() + s4()).toUpperCase();
+			},
+			imgLongpress (e, index) {
+				console.log('imageType', this.imageType)
+				if(this.imageType === 2) { // 用户上传的图片
+					let arr = ['删除'];
+					uni.showActionSheet({
+						itemList: arr,
+						success: (res) => {
+							if(res.tapIndex === 0) {
+								console.log('shancheba', e)
+								wx.cloud.init()                              //调用前需先调用init
+								wx.cloud.callFunction({
+									name: 'delDataFromCould',
+									data: {
+										dbName: 'userImageList',
+										primaryKey: '_id',
+										list: [
+											{
+												_id: e._id
+											}
+										]
+									}
+								}).then(res => {
+									uni.showToast(
+											{
+												title: `删除成功！`,
+												icon: 'none',
+											}
+									);
+									this.dataList.splice(index, 1)
+								})
+							}
+						},
+						fail: function (res) {
+							console.log(res.errMsg);
+						}
+					});
+				}
 			},
 			goDetail(e) {
 				uni.navigateTo({
