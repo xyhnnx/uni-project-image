@@ -91,7 +91,7 @@
 			},
 			inputChange (e) {
 				console.log(e)
-				this.search = e.detail.value
+				this.search = e.detail.value || '美女'
 			},
 			searchClick () {
 				console.log('searchClick')

@@ -14,6 +14,7 @@
 					<view class="height10"></view>
 					<button type="default" class="login" hover-class="hover" @click="addData">add</button>
 					<button type="default" class="login" hover-class="hover" @click="getSearchImg">getSearchImg</button>
+					<button type="default" class="login" hover-class="hover" @click="puppeteer">puppeteer</button>
 				</view>
 			</form>
 		</view>
@@ -94,6 +95,24 @@
 				wx.cloud.init()                              //调用前需先调用init
 				wx.cloud.callFunction({
 					name: 'getSearchImg',
+					data: {
+						search: '美女'
+					}
+				}).then(res => {
+					console.log('res',res)
+					uni.showToast(
+							{
+								title: res.result.msg,
+								icon: 'none',
+							}
+					);
+				})
+
+			},
+			puppeteer () {
+				wx.cloud.init()                              //调用前需先调用init
+				wx.cloud.callFunction({
+					name: 'puppeteerUtil',
 					data: {
 						search: '美女'
 					}
