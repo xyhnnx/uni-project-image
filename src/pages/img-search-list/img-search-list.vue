@@ -1,9 +1,9 @@
 <template>
 	<view class="grid">
-		<view class="grid-c-06" v-for="item in dataList" :key="item.guid">
-			<view class="panel" @click="goDetail(item)">
-				<image class="card-img card-list2-img" mode="aspectFill" :src="item.img_src"></image>
-				<text class="card-num-view card-list2-num-view">{{item.img_num}}P</text>
+		<view class="grid-c-06" v-for="(item, index) in dataList" :key="item.src">
+			<view class="panel" @click="goDetail(item,index)">
+				<image class="card-img card-list2-img" mode="aspectFill" :src="item.src"></image>
+				<!--<text class="card-num-view card-list2-num-view">{{item.img_num}}P</text>-->
 				<view class="card-bottm row">
 					<view class="car-title-view row">
 						<text class="card-title card-list2-title">{{item.title}}</text>
@@ -162,11 +162,8 @@
 				let list = [];
 				for (var i = 0; i < data.length; i++) {
 					var item = data[i];
-					item.guid = this.newGuid() + item._id
 					list.push({
-						guid: item.guid,
-						img_src: item.src,
-						img_num: 1,
+						src: item.src,
 						title: item.desc,
 					});
 				}
@@ -186,9 +183,9 @@
 				}
 				return (s4() + s4() + "-" + s4() + "-4" + s4().substr(0, 3) + "-" + s4() + "-" + s4() + s4() + s4()).toUpperCase();
 			},
-			goDetail(e) {
+			goDetail(e,index) {
 				uni.navigateTo({
-					url: '/pages/detail/detail?data=' + encodeURIComponent(JSON.stringify(e))
+					url: `/pages/detail/detail?list=${encodeURIComponent(JSON.stringify(this.dataList))}&index=${index}&fromPage='img-search-list'`
 				});
 			},
 			share(e) {

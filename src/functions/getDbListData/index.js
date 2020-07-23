@@ -15,7 +15,7 @@ const isAdminOpenIds = ['oPpLk5JYQ0i2cqoC3T-sxQzSPyOM']
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
   try{
-    let {params = {},orderName,orderType = 'desc',pageNo, pageSize,dbName,isOnlyMe = true} = event;
+    let {params = {},orderName,orderType = 'desc',pageNo, pageSize,dbName,isOnlyMe = true, isUserInfo} = event;
     // 只查看自己的
     if(isOnlyMe) {
       let isAdmin = isAdminOpenIds.includes(wxContext.OPENID)

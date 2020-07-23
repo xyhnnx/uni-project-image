@@ -1,7 +1,7 @@
 <template>
 	<view class="index">
-		<block v-for="item in dataList" :key="item.src">
-			<view class="card" @click="goDetail(item)">
+		<block v-for="(item, index) in dataList" :key="item.src">
+			<view class="card" @click="goDetail(item,index)">
 				<image class="card-img" :src="item.src" mode="aspectFill"></image>
 				<!--<text class="card-num-view">{{item.img_num}}P</text>-->
 				<view class="card-bottm row">
@@ -138,10 +138,10 @@
 					this.fetchPageNum += 1;
 				}
 			},
-			goDetail(e) {
+			goDetail(e,index) {
 				uni.navigateTo({
-					url: '../detail/detail?data=' + encodeURIComponent(JSON.stringify(e))
-				})
+					url: `/pages/detail/detail?list=${encodeURIComponent(JSON.stringify(this.dataList))}&index=${index}`
+				});
 			},
 			share(e) {
 				if (this.providerList.length === 0) {

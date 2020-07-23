@@ -1,7 +1,7 @@
 <template>
 	<view class="index">
 		<swiper @change="swpierChange" :style="{height:screenHeight + 'px'}" :current="index">
-			<swiper-item v-for="(value,index) in data" :key="value" @click="preImg(index)">
+			<swiper-item v-for="(value,index) in data" :key="value.src" @click="preImg(index)">
 				<image :src="value.src" mode="aspectFill"></image>
 			</swiper-item>
 		</swiper>
@@ -36,9 +36,11 @@
 			if (plus.os.name === 'Android') {
 				this.showBtn = true;
 			}
+			console.log('onload;----;;')
+			this.uploadLookCount(e)
 			// #endif
 			this.screenHeight = uni.getSystemInfoSync().windowHeight;
-			let list = JSON.parse(e.list);
+			let list = JSON.parse(decodeURIComponent(e.list));
 			this.imgLength = list.length
 			this.index = Number(e.index)
 			this.data = list
@@ -131,6 +133,22 @@
 			}
 		},
 		methods: {
+			uploadLookCount (e) {
+				console.log(e)
+				const db = wx.cloud.database()
+				if(e.fromPage === 'img-search-list') {
+					console.log(e)
+					const _ = db.command
+					db.collection('userSearchImgHistory').where({
+						src: e.src
+					})
+					.update({
+						data: {
+							lookCount: _.inc(1)
+						},
+					})
+				}
+			},
 			download() {
 				uni.downloadFile({
 					url: this.data[this.index],

@@ -15,11 +15,13 @@ exports.main = async (event, context) => {
   let addCount = 0
   // 数据库名称 数据库唯一标识（用于添加时判断是否存在） 要插入的数据List
   let {dbName, primaryKey, list} = event;
-  console.log(dbName, primaryKey, list)
   if (list &&list.length) {
     for(let i = 0;i<list.length;i++) {
       // 查询该条记录是否存在
       let item = list[i];
+      item.openId = wxContext.OPENID
+      item.createTime = new Date()
+      item.location = new db.Geo.Point(113, 23)
       let countRes = await db.collection(dbName).where({
         [primaryKey]: item[primaryKey]
       }).count();
@@ -27,9 +29,6 @@ exports.main = async (event, context) => {
         await db.collection(dbName).add({
           // data 字段表示需新增的 JSON 数据
           data: {
-            openId: wxContext.OPENID,
-            createTime: new Date(),
-            location: new db.Geo.Point(113, 23),
             ...item,
           }
         })

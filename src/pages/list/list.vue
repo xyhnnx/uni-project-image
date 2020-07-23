@@ -234,9 +234,9 @@
 					});
 				}
 			},
-			goDetail(e, index) {
+			goDetail(e,index) {
 				uni.navigateTo({
-					url: `/pages/detail/detail?list=${(JSON.stringify(this.dataList))}&index=${index}`
+					url: `/pages/detail/detail?list=${encodeURIComponent(JSON.stringify(this.dataList))}&index=${index}`
 				});
 			},
 			share(e) {

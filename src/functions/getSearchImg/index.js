@@ -39,6 +39,7 @@ exports.main = async (event, context) => {
             desc: e.fromPageTitleEnc,
             search,
             openId: wxContext.OPENID,
+            lookCount: 0
           }
         )
       }
