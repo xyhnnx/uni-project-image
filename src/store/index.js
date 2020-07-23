@@ -14,9 +14,17 @@ const store = new Vuex.Store({
 		userInfo: {},
 	},
 	mutations: {
-		login(state, userName) {
-			state.userName = userName || '新用户';
-			state.hasLogin = true;
+		async getUserInfo(state) {
+			let userInfoData = await wx.cloud.callFunction({
+				name: 'getDbListData',
+				data: {
+					dbName: 'userList',
+					pageNo: 1,
+					pageSize: 1,
+					isUserInfo: true
+				}
+			})
+			state.userInfo = userInfoData.result.data[0];
 		},
 		logout(state) {
 			state.userName = "";

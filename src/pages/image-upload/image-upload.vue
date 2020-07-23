@@ -10,16 +10,37 @@
 </template>
 
 <script>
+	import {
+		mapState,
+		mapMutations
+	} from 'vuex'
 	export default {
 		data() {
 			return {
 				canIUse: wx.canIUse('button.open-type.getUserInfo')
 			};
 		},
+		computed: mapState(['userInfo']),
 		methods: {
+			...mapMutations(['getUserInfo','setStateData']),
 			bindGetUserInfo (e) {
-				console.log(e.detail.userInfo);
-				this.uploadClick(e.detail.userInfo);
+				if(this.userInfo.isLogin) {
+					this.uploadClick(this.userInfo);
+				}else{
+					e.detail.userInfo.isLogin = true
+					wx.cloud.init()                              //调用前需先调用init
+					wx.cloud.callFunction({
+						name: 'addDataToCould',
+						data: {
+							dbName: 'userList',
+							primaryKey: 'openId',
+							list: [e.detail.userInfo]
+						}
+					}).then(async res => {
+						await this.getUserInfo()
+						this.uploadClick(e.detail.userInfo);
+					})
+				}
 			},
 			uploadClick (userInfo) {
 				// 让用户选择一张图片

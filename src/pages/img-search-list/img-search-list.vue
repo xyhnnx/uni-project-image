@@ -185,7 +185,7 @@
 			},
 			goDetail(e,index) {
 				uni.navigateTo({
-					url: `/pages/detail/detail?list=${encodeURIComponent(JSON.stringify(this.dataList))}&index=${index}&fromPage='img-search-list'`
+					url: `/pages/detail/detail?list=${encodeURIComponent(JSON.stringify(this.dataList))}&index=${index}&fromPage=img-search-list`
 				});
 			},
 			share(e) {

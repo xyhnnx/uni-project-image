@@ -1,10 +1,10 @@
 <template>
 	<view class="center">
-		<view class="logo" @click="goLogin" :hover-class="!login ? 'logo-hover' : ''">
-			<image class="logo-img" :src="login ? uerInfo.avatarUrl :avatarUrl"></image>
+		<view class="logo" @click="goLogin" :hover-class="!userInfo.isLogin ? 'logo-hover' : ''">
+			<image class="logo-img" :src="userInfo.avatarUrl ? userInfo.avatarUrl :avatarUrl"></image>
 			<view class="logo-title">
-				<text class="uer-name">Hi，{{login ? uerInfo.name : '您未登录'}}</text>
-				<text class="go-login navigat-arrow" v-if="!login">&#xe65e;</text>
+				<text class="uer-name">Hi，{{userInfo.nickName ? userInfo.nickName : '您未登录'}}</text>
+				<text class="go-login navigat-arrow" v-if="!userInfo.isLogin">&#xe65e;</text>
 			</view>
 		</view>
 		<view class="center-list">
@@ -52,17 +52,21 @@
 </template>
 
 <script>
+	import {
+		mapState,
+		mapMutations
+	} from 'vuex'
 	export default {
 		data() {
 			return {
-				login: false,
 				avatarUrl: '/static/logo.png',
-				uerInfo: {}
 			}
 		},
+		computed: mapState(['userInfo']),
 		methods: {
+			...mapMutations(['getUserInfo','setStateData']),
 			goLogin() {
-				if (!this.login) {
+				if (!this.userInfo.isLogin) {
 					uni.navigateTo({
 						url: '/pages/login/login'
 					});
@@ -84,6 +88,9 @@
 					url: '/pages/image-upload/image-upload'
 				});
 			}
+		},
+		onLoad() {
+			this.getUserInfo()
 		}
 	}
 </script>

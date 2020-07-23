@@ -26,6 +26,7 @@
 				showBtn: false,
 				screenHeight: 0,
 				imgLength: 0,
+				fromPage: '',
 				providerList: [],
 				data: [],
 				detailDec: ""
@@ -36,14 +37,14 @@
 			if (plus.os.name === 'Android') {
 				this.showBtn = true;
 			}
-			console.log('onload;----;;')
-			this.uploadLookCount(e)
 			// #endif
 			this.screenHeight = uni.getSystemInfoSync().windowHeight;
 			let list = JSON.parse(decodeURIComponent(e.list));
 			this.imgLength = list.length
 			this.index = Number(e.index)
 			this.data = list
+			this.fromPage = e.fromPage
+			this.uploadLookCount()
 			uni.setNavigationBarTitle({
 				title: (this.index + 1) +"/" + this.imgLength
 			});
@@ -133,20 +134,30 @@
 			}
 		},
 		methods: {
-			uploadLookCount (e) {
-				console.log(e)
+			async uploadLookCount () {
 				const db = wx.cloud.database()
-				if(e.fromPage === 'img-search-list') {
-					console.log(e)
-					const _ = db.command
-					db.collection('userSearchImgHistory').where({
-						src: e.src
-					})
-					.update({
+				if(['img-search-list','hot'].includes(this.fromPage)) {
+					let res = await db.collection('userSearchImgHistory')
+					.where({
+						src: this.data[this.index].src
+					}).get();
+					let res2 = await wx.cloud.callFunction({
+						name: 'updateDataToCould',
 						data: {
-							lookCount: _.inc(1)
-						},
+							dbName: 'userSearchImgHistory',
+							primaryKey: 'src',
+							list: [
+								{
+									src: this.data[this.index].src
+								}
+							],
+							data: {
+								lookCount: res.data[0].lookCount ++
+							}
+						}
 					})
+					console.log(res2)
+
 				}
 			},
 			download() {
@@ -228,6 +239,7 @@
 				uni.setNavigationBarTitle({
 					title: e.detail.current + 1 + '/' + this.imgLength
 				})
+				this.uploadLookCount()
 			},
 			preImg(index) {
 				if (this.imgShow) { //防止点击过快导致重复调用

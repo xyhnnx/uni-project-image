@@ -29,10 +29,11 @@
 		data() {
 			return {};
 		},
+        computed: mapState(['userInfo']),
 		methods: {
-			...mapMutations(['login','setStateData']),
+			...mapMutations(['getUserInfo','setStateData']),
 			bindGetUserInfo (e) {
-				// e.detail.userInfo.isLogin = true
+				e.detail.userInfo.isLogin = true
 				wx.cloud.init()                              //调用前需先调用init
 				wx.cloud.callFunction({
 					name: 'addDataToCould',
@@ -42,33 +43,27 @@
 						list: [e.detail.userInfo]
 					}
 				}).then(async res => {
-					console.log(this.setStateData)
-					this.setStateData({
-						userInfo: e.detail.userInfo,
-					})
-					// userInfoData = await wx.cloud.callFunction({
-					// 	name: 'getDbListData',
-					// 	data: {
-					// 		dbName: 'userList',
-					// 		pageNo: 1,
-					// 		pageSize: 1,
-					// 		isUserInfo: true
-					// 	}
-					// })
-					// console.log(userInfoData)
+					await this.getUserInfo()
 					uni.showToast(
 							{
-								title: `登陆成功!`,
+								title: `登录成功!`,
 								icon: 'none',
 							}
 					);
 					uni.reLaunch({
-						url: '/page/user/user',
+						url: '/pages/center/center',
 					});
 				})
-
-
 			},
+		},
+		async onLoad() {
+			await this.getUserInfo();
+			console.log(this.userInfo)
+			if(this.userInfo && this.userInfo.openId) {
+				uni.reLaunch({
+					url: '/pages/new/new',
+				});
+			}
 		}
 	}
 </script>
