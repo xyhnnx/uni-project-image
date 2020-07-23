@@ -1,9 +1,9 @@
 <template>
 	<view class="index">
-		<block v-for="item in list" :key="item.img_src">
+		<block v-for="item in dataList" :key="item.src">
 			<view class="card" @click="goDetail(item)">
-				<image class="card-img" :src="item.img_src" mode="aspectFill"></image>
-				<text class="card-num-view">{{item.img_num}}P</text>
+				<image class="card-img" :src="item.src" mode="aspectFill"></image>
+				<!--<text class="card-num-view">{{item.img_num}}P</text>-->
 				<view class="card-bottm row">
 					<view class="car-title-view row">
 						<text class="card-title">{{item.title}}</text>
@@ -12,7 +12,7 @@
 				</view>
 			</view>
 		</block>
-		<text class="loadMore">加载中...</text>
+		<text class="loadMore">{{loadMoreText}}</text>
 	</view>
 </template>
 
@@ -21,9 +21,11 @@
 		data() {
 			return {
 				refreshing: false,
-				providerList: [],
-				list: [],
-				fetchPageNum: 1
+				loadMoreText: '加载中...',
+				dataList: [],
+				totalCount: 0,
+				fetchPageNum: 0,
+				fetchPageSize: 5
 			}
 		},
 		onLoad() {
@@ -64,44 +66,77 @@
 		},
 		onReachBottom() {
 			console.log('滑动到页面底部')
+			if ((this.fetchPageNum) *this.fetchPageSize >= this.totalCount || this.dataList.length >= this.totalCount) {
+				this.loadMoreText = '没有更多了'
+				return;
+			}
 			this.getData();
 		},
 		onPullDownRefresh() {
 			console.log('下拉刷新');
 			this.refreshing = true;
+			this.fetchPageNum = 0;
 			this.getData();
 		},
 		methods: {
-			getData() {
-				uni.request({
-					url: this.$serverUrl + '/api/picture/posts.php?page=' + (this.refreshing ? 1 : this.fetchPageNum) +
-						'&per_page=5',
-					success: (ret) => {
-						console.log('data', ret);
-						if (ret.statusCode !== 200) {
-							console.log('失败!');
-						} else {
-							if (this.refreshing && ret.data[0].id === this.list[0].id) {
-								uni.showToast({
-									title: '已经最新',
-									icon: 'none',
-								})
-								this.refreshing = false;
-								uni.stopPullDownRefresh();
-								return;
-							}
-							if (this.refreshing) {
-								this.refreshing = false;
-								uni.stopPullDownRefresh()
-								this.list = ret.data;
-								this.fetchPageNum = 2;
-							} else {
-								this.list = this.list.concat(ret.data);
-								this.fetchPageNum += 1;
-							}
-						}
+			async getData() {
+				// 先根据微信名nickName分组
+				const db = wx.cloud.database()
+				// uni.request({
+				// 	url: this.$serverUrl + '/api/picture/list.php?type=' + this.id,
+				// 	success: (ret) =>
+				// });
+				let ret = {};
+				ret = await wx.cloud.callFunction({
+					name: 'getDbListData',
+					data: {
+						dbName: 'userImageList',
+						pageNo: this.fetchPageNum + 1,
+						pageSize: this.fetchPageSize,
+						params: {
+						},
+						orderName: 'createTime',
+						orderType: 'desc'
 					}
-				});
+				})
+				// errMsg: "collection.get:ok"
+				if (ret.errMsg !== 'cloud.callFunction:ok') {
+					console.log('请求失败', ret)
+					return;
+				}
+				this.totalCount = ret.result.totalCount
+				const data = ret.result.data;
+
+				if (this.refreshing && data[0]._id === this.dataList[0]._id) {
+					uni.showToast({
+						title: '已经最新',
+						icon: 'none',
+					});
+					this.refreshing = false;
+					uni.stopPullDownRefresh();
+					return;
+				}
+
+				let list = [];
+				for (var i = 0; i < data.length; i++) {
+					var item = data[i];
+					list.push({
+						fileID: item.fileID,
+						img_num: 1,
+						_id: item._id,
+						title: item.nickName,
+						src: item.fileID
+					});
+				}
+
+				if (this.refreshing) {
+					this.refreshing = false;
+					uni.stopPullDownRefresh();
+					this.dataList = list;
+				} else {
+					this.dataList = this.dataList.concat(list);
+					this.fetchPageNum += 1;
+				}
 			},
 			goDetail(e) {
 				uni.navigateTo({

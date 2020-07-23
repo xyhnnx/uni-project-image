@@ -9,7 +9,7 @@
 			</block>
 		</view>
 		<view class="search-box">
-			<input class="input" type="text" placeholder="请输入图片搜索" @change="inputChange" name="checkValue" />
+			<input class="input" type="text" placeholder="请输入关键字搜索图片" @change="inputChange" name="checkValue" />
 			<button type="default" class="login" hover-class="hover" @click="searchClick">搜索</button>
 		</view>
 	</view>

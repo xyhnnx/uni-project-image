@@ -8,10 +8,13 @@ cloud.init({
 const db = cloud.database({
   env
 })
+// 超管的openId
+const isAdminOpenIds = ['oPpLk5JYQ0i2cqoC3T-sxQzSPyOM']
 
 // 云函数入口函数 142xyh753869
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
+  let isAdmin = isAdminOpenIds.includes(wxContext.OPENID)
   const $ = db.command.aggregate
   let res =  await db.collection('userImageList').aggregate()
   .group({
@@ -25,7 +28,7 @@ exports.main = async (event, context) => {
   if(res && res.list && res.list.length) {
     res.list = res.list.filter(item => {
       // 我的openId
-      if(wxContext.OPENID === 'oPpLk5JYQ0i2cqoC3T-sxQzSPyOM') {
+      if(isAdmin) {
         return true
       } else {
         return wxContext.OPENID === item._id

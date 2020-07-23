@@ -1,8 +1,8 @@
 <template>
 	<view class="index">
-		<swiper @change="swpierChange" :style="{height:screenHeight + 'px'}">
+		<swiper @change="swpierChange" :style="{height:screenHeight + 'px'}" :current="index">
 			<swiper-item v-for="(value,index) in data" :key="value" @click="preImg(index)">
-				<image :src="value" mode="aspectFill"></image>
+				<image :src="value.src" mode="aspectFill"></image>
 			</swiper-item>
 		</swiper>
 		<!-- #ifndef H5 -->
@@ -38,13 +38,12 @@
 			}
 			// #endif
 			this.screenHeight = uni.getSystemInfoSync().windowHeight;
-			this.detailDec = e.data;
-			let data = JSON.parse(decodeURIComponent(e.data));
-			this.imgLength = data.img_num;
-			this.data.push(data.img_src);
-			this.getData(data.id);
+			let list = JSON.parse(e.list);
+			this.imgLength = list.length
+			this.index = Number(e.index)
+			this.data = list
 			uni.setNavigationBarTitle({
-				title: "1/" + this.imgLength
+				title: (this.index + 1) +"/" + this.imgLength
 			});
 			// 获取分享通道
 			uni.getProvider({
@@ -222,33 +221,33 @@
 				}, 1000)
 				setTimeout(() => {
 					uni.previewImage({
-						current: this.data[index],
+						current: this.data[index].src,
 						urls: this.data
 					})
 				}, 150)
 			},
-			getData(e) {
-				uni.request({
-					url: this.$serverUrl + '/api/picture/detail.php?id=' + e,
-					success: (res) => {
-						if (res.data.code !== 0) {
-							uni.showModal({
-								content: '请求失败，失败原因：' + res.data.msg,
-								showCancel: false
-							})
-							return;
-						}
-
-						this.data = this.data.concat(res.data.data);
-					},
-					fail: () => {
-						uni.showModal({
-							content: '请求失败，请重试!',
-							showCancel: false
-						})
-					}
-				})
-			}
+			// getData(e) {
+			// 	uni.request({
+			// 		url: this.$serverUrl + '/api/picture/detail.php?id=' + e,
+			// 		success: (res) => {
+			// 			if (res.data.code !== 0) {
+			// 				uni.showModal({
+			// 					content: '请求失败，失败原因：' + res.data.msg,
+			// 					showCancel: false
+			// 				})
+			// 				return;
+			// 			}
+			//
+			// 			this.data = this.data.concat(res.data.data);
+			// 		},
+			// 		fail: () => {
+			// 			uni.showModal({
+			// 				content: '请求失败，请重试!',
+			// 				showCancel: false
+			// 			})
+			// 		}
+			// 	})
+			// }
 		}
 	}
 </script>

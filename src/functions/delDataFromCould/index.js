@@ -14,7 +14,7 @@ exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
   let delRes = []
   // 数据库名称 数据库唯一标识（用于添加时判断是否存在） 要插入的数据List
-  let {dbName, primaryKey, list} = event;
+  let {dbName, primaryKey, list, isDeleteFile = false} = event;
   console.log(dbName, primaryKey, list)
   if (list &&list.length) {
     for(let i = 0;i<list.length;i++) {
@@ -24,6 +24,12 @@ exports.main = async (event, context) => {
         [primaryKey]: item[primaryKey]
       }).remove();
       delRes.push(res)
+      if(isDeleteFile && item.fileID) {
+        let res2 = await cloud.deleteFile({
+          fileList: [item.fileID]
+        })
+        delRes.push(res2)
+      }
     }
   }
 
