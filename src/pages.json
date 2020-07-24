@@ -1,7 +1,13 @@
 {
 	"pages": [
 		{
-			//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+			"path": "pages/center/center",
+			"style": {
+				"navigationBarTitleText": "个人中心",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
 			"path": "pages/new/new",
 			"style": {
 				"navigationBarTitleText": "最新",
@@ -66,14 +72,6 @@
 			}
 		},
 		{
-			"path": "pages/center/center",
-			"style": {
-				"navigationBarTitleText": "个人中心",
-				"enablePullDownRefresh": false
-			}
-		},
-
-		{
 			"path": "pages/about/about",
 			"style": {}
 		},
@@ -87,6 +85,12 @@
 			"path": "pages/image-upload/image-upload",
 			"style": {
 				"navigationBarTitleText": "上传图片"
+			}
+		},
+		{
+			"path": "pages/img-ocr/img-ocr",
+			"style": {
+				"navigationBarTitleText": "图片识别"
 			}
 		}
 	],

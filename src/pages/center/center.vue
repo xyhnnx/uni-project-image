@@ -7,24 +7,24 @@
 				<text class="go-login navigat-arrow" v-if="!userInfo.isLogin">&#xe65e;</text>
 			</view>
 		</view>
-		<view class="center-list">
-			<view class="center-list-item border-bottom">
-				<text class="list-icon">&#xe60c;</text>
-				<text class="list-text">收藏图片</text>
-				<text class="navigat-arrow">&#xe65e;</text>
-			</view>
-			<view class="center-list-item">
-				<text class="list-icon">&#xe60d;</text>
-				<text class="list-text">收藏图集</text>
-				<text class="navigat-arrow">&#xe65e;</text>
-			</view>
-		</view>
-		<view class="center-list">
-			<view class="center-list-item border-bottom">
-				<text class="list-icon">&#xe60b;</text>
-				<text class="list-text">管理图片</text>
-				<text class="navigat-arrow">&#xe65e;</text>
-			</view>
+		<!--<view class="center-list">-->
+			<!--<view class="center-list-item border-bottom">-->
+				<!--<text class="list-icon">&#xe60c;</text>-->
+				<!--<text class="list-text">收藏图片</text>-->
+				<!--<text class="navigat-arrow">&#xe65e;</text>-->
+			<!--</view>-->
+			<!--<view class="center-list-item">-->
+				<!--<text class="list-icon">&#xe60d;</text>-->
+				<!--<text class="list-text">收藏图集</text>-->
+				<!--<text class="navigat-arrow">&#xe65e;</text>-->
+			<!--</view>-->
+		<!--</view>-->
+		<view class="center-list" v-if="config.showUploadImage">
+			<!--<view class="center-list-item border-bottom">-->
+				<!--<text class="list-icon">&#xe60b;</text>-->
+				<!--<text class="list-text">管理图片</text>-->
+				<!--<text class="navigat-arrow">&#xe65e;</text>-->
+			<!--</view>-->
 			<view class="center-list-item" @click="goUploadImg">
 				<text class="list-icon">&#xe61a;</text>
 				<text class="list-text">上传图片</text>
@@ -37,12 +37,12 @@
 				<text class="list-text">关于</text>
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
-			<view class="center-list-item">
+			<view class="center-list-item" @click="toImgOcr">
 				<text class="list-icon">&#xe609;</text>
-				<text class="list-text">账号管理</text>
+				<text class="list-text">图片识别</text>
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
-			<view class="center-list-item" @click="goTest">
+			<view class="center-list-item" @click="goTest" v-if="config.showTest">
 				<text class="list-icon">&#xe609;</text>
 				<text class="list-text">test</text>
 				<text class="navigat-arrow">&#xe65e;</text>
@@ -62,7 +62,7 @@
 				avatarUrl: '/static/logo.png',
 			}
 		},
-		computed: mapState(['userInfo']),
+		computed: mapState(['userInfo','config']),
 		methods: {
 			...mapMutations(['getUserInfo','setStateData']),
 			goLogin() {
@@ -75,6 +75,11 @@
 			goAbout() {
 				uni.navigateTo({
 					url: '/pages/about/about'
+				});
+			},
+			toImgOcr() {
+				uni.navigateTo({
+					url: '/pages/img-ocr/img-ocr'
 				});
 			},
 			goTest () {

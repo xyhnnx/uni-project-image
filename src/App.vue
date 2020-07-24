@@ -7,6 +7,7 @@
             traceUser: true
           }) //调用前需先调用init
           console.log('wx.cloud.init()')
+          this.$store.commit('getConfig')
 		},
 		onShow: function() {
 			console.log('App Show')
