@@ -15,13 +15,17 @@ const isAdminOpenIds = ['oPpLk5JYQ0i2cqoC3T-sxQzSPyOM']
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
   try{
-    let {params = {},orderName,orderType = 'desc',pageNo, pageSize,dbName,isOnlyMe = true, isUserInfo} = event;
-    // 只查看自己的
-    if(isOnlyMe) {
+    let {params = {},orderName,orderType = 'desc',pageNo, pageSize,dbName,limitType = 2, isUserInfo} = event;
+    // limitType 1 只看到自己 2 普通看到自己；超管看所有 3 都看到所有
+    if(limitType === 2) {
       let isAdmin = isAdminOpenIds.includes(wxContext.OPENID)
       if(!isAdmin) { // 如果不是超管，则只看到自己的，（超管看到所有）
         params.openId = wxContext.OPENID
       }
+    } else if(limitType === 1) {
+      params.openId = wxContext.OPENID
+    } else if(limitType === 3) {
+
     }
     // 获取总数
     let totalData = await db.collection(dbName).where({

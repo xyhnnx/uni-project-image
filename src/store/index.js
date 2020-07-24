@@ -21,7 +21,7 @@ const store = new Vuex.Store({
 					dbName: 'userList',
 					pageNo: 1,
 					pageSize: 1,
-					isUserInfo: true
+					limitType: 1
 				}
 			})
 			state.userInfo = userInfoData.result.data[0];

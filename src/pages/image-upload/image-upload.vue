@@ -24,7 +24,7 @@
 		methods: {
 			...mapMutations(['getUserInfo','setStateData']),
 			bindGetUserInfo (e) {
-				if(this.userInfo.isLogin) {
+				if(this.userInfo && this.userInfo.isLogin) {
 					this.uploadClick(this.userInfo);
 				}else{
 					e.detail.userInfo.isLogin = true
