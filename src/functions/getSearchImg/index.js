@@ -31,33 +31,40 @@ exports.main = async (event, context) => {
       pn: (pageNo-1) * pageSize// 第几个开始跳
     })
     let arr = []
-    result.data.forEach(e => {
+    result.data.forEach(async e => {
       if(e.hoverURL) {
+        let item = {
+          src: e.hoverURL,
+          desc: e.fromPageTitleEnc,
+          search,
+          openId: wxContext.OPENID,
+          lookCount: 0
+        }
         arr.push(
-          {
-            src: e.hoverURL,
-            desc: e.fromPageTitleEnc,
-            search,
-            openId: wxContext.OPENID,
-            lookCount: 0
-          }
+          item
         )
       }
     })
-    // 保持到搜索歷史
-    if(saveToHistory) {
-      cloud.callFunction({
-        // 需调用的云函数名
-        name: 'addDataToCould',
-        // 传给云函数的参数
-        data: {
-          dbName: 'userSearchImgHistory',
-          primaryKey: 'src',
-          list:arr
-        },
-        // 成功回调
-        complete: console.log
-      })
+
+    if(saveToHistory) { // 添加到搜索历史记录里面
+      for(let i = 0;i<arr.length;i++) {
+        let item = arr[i]
+        item.openId = item.openId || wxContext.OPENID
+        item.createTime = new Date()
+        item.location = new db.Geo.Point(113, 23)
+        let countRes = await db.collection('userSearchImgHistory').where({
+          src: item.src,
+          openId: item.openId
+        }).count();
+        if(countRes.total === 0) {// 不存在则添加
+          db.collection('userSearchImgHistory').add({
+            // data 字段表示需新增的 JSON 数据
+            data: {
+              ...item,
+            }
+          })
+        }
+      }
     }
 
     return {
