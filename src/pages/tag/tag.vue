@@ -1,16 +1,16 @@
 <template>
 	<view class="index">
 		<view class="tags">
+			<view class="search-box">
+				<input class="input" type="text" placeholder="请输入关键字搜索图片" @change="inputChange" name="checkValue" />
+				<button type="default" class="btn" hover-class="hover" @click="searchClick">搜索</button>
+			</view>
 			<block v-for="(value, index) in data" :key="index">
 				<view class="tag" @tap="goList(value)">
 					<image class="tag-img" :src="value.icon"></image>
 					<text class="tag-text">{{value.type}}</text>
 				</view>
 			</block>
-		</view>
-		<view class="search-box">
-			<input class="input" type="text" placeholder="请输入关键字搜索图片" @change="inputChange" name="checkValue" />
-			<button type="default" class="login" hover-class="hover" @click="searchClick">搜索</button>
 		</view>
 	</view>
 </template>
@@ -107,10 +107,25 @@
 	}
 </script>
 
-<style scoped >
+<style scoped lang="stylus">
 .search-box {
+	width 100%
 	display: flex;
-	flex-direction: column;
-	padding-bottom: 10px;
+	margin: 10px;
+	border: 1px solid #FF80AB;
+	border-radius: 5px;
+	overflow hidden
+	.input{
+		flex: 1;
+		line-height 40px
+		padding 5px;
+	}
+	.btn {
+		background-color #FF80AB;
+		width: 100px;
+		color #fff
+		border-radius 0
+	}
+
 }
 </style>
