@@ -22,9 +22,17 @@ exports.main = async (event, context) => {
       item.openId = item.openId || wxContext.OPENID
       item.createTime = new Date()
       item.location = new db.Geo.Point(113, 23)
-      let countRes = await db.collection(dbName).where({
-        [primaryKey]: item[primaryKey]
-      }).count();
+      let countRes
+      if (primaryKey) { // 如果传来primaryKey；则先判断是否存在；不存在才添加
+        countRes = await db.collection(dbName).where({
+          [primaryKey]: item[primaryKey]
+        }).count();
+      } else { // 直接判定不存在
+        countRes = {
+          total: 0
+        }
+      }
+
       if(countRes.total === 0) {// 不存在则添加
         await db.collection(dbName).add({
           // data 字段表示需新增的 JSON 数据

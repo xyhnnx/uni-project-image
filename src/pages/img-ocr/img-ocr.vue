@@ -6,6 +6,7 @@
 			<view style="height: 10px;"></view>
 			<view class="camera-btn">
 				<button class="btn" type="primary" @click="changeDevicePosition">切换镜头</button>
+				<view class="split"></view>
 				<button class="btn" type="primary" @click="changeFlash">闪光灯：{{flash}}</button>
 			</view>
 			<view style="height: 10px;"></view>
@@ -14,11 +15,8 @@
 			<button type="primary" @click="uploadClick">上传图片识别文字</button>
 
 			<view class="text-content-list">
-				<template v-if="resultList && resultList.length">
-					<view class="list-item" v-for="(item, index) in resultList" :key="index">
-						{{item.words}}
-					</view>
-				</template>
+				<textarea :maxlength="-1" auto-height="true" class="text-area" :value="resultList.map(e=>e.words).join('\n')" v-if="resultList && resultList.length">
+				</textarea>
 			</view>
 
 		</view>
@@ -26,6 +24,7 @@
 </template>
 
 <script>
+	import * as util from '../../common/util'
 	import {
 		mapState,
 		mapMutations
@@ -36,12 +35,12 @@
 			return {
 				canIUse: wx.canIUse('button.open-type.getUserInfo'),
 				src: '',
-				flash: 'on', // auto, on, off 闪关灯
+				flash: 'off', // auto, on, off 闪关灯
 				resultList: [],
 				devicePosition: 'back' // front 前置摄像头；back后置摄像头
 			};
 		},
-		computed: mapState(['userInfo']),
+		computed: mapState(['userInfo','config']),
 		methods: {
 			...mapMutations(['getUserInfo','setStateData']),
 			changeDevicePosition () {
@@ -88,17 +87,6 @@
 					},
 				})
 			},
-			async addDataToCould (list) {
-				wx.cloud.init() //调用前需先调用init
-				return wx.cloud.callFunction({
-					name: 'addDataToCould',
-					data: {
-						dbName: 'userImageList',
-						primaryKey: 'fileID',
-						list
-					}
-				})
-			},
 			takePhoto() {
 				this.resultList = []
 				const ctx = wx.createCameraContext()
@@ -118,7 +106,6 @@
 						uni.showLoading({
 							title: '图片识别中...'
 						})
-						console.log(res,'resresres')
 						let base64Data = '' + res.data
 						let data = await ocrAccurate(base64Data)
 						this.resultList.push(...data.words_result)
@@ -130,9 +117,36 @@
 										icon: 'none',
 									}
 							);
+						} else  if(this.config.saveImageTextRecognitionResult){ // 判断是否保存图片识别结果
+							this.uploadImageRecognition(imgPath,data.words_result)
 						}
 					}
 				})
+
+			},
+			// 上传图片和识别结果
+			async uploadImageRecognition (path, words_result) {
+				// 将图片上传至云存储空间
+				let res = await wx.cloud.uploadFile({
+					// 指定上传到的云路径 不能以/开头
+					cloudPath: `user-images-recognition/${path.split('/')[path.split('/').length - 1]}`,
+					// 指定要上传的文件的小程序临时文件路径
+					filePath: path
+				})
+				if(res.statusCode === 204) {
+					wx.cloud.callFunction({
+						name: 'addDataToCould',
+						data: {
+							dbName: 'userImageRecognitionList',
+							list: [
+								{
+									fileID: res.fileID,
+									recognitionResult: words_result
+								}
+							]
+						}
+					})
+				}
 
 			},
 			error(e) {
@@ -157,15 +171,15 @@
 			display block
 			width 100%
 	.text-content-list
-		padding 10px
-		display block
-		.list-item
+		.text-area
 			display block
 			width 100%
-			line-height 20px
+			height auto
 	.camera-btn
 		padding 0 10px
 		display flex
 		.btn
 			flex 1
+		.split
+			width 20px
 </style>

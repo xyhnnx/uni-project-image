@@ -130,17 +130,20 @@
 						}
 					})
 				}else{
+					console.log('xxxxx1')
 					ret = await wx.cloud.callFunction({
 						name: 'getDbListData',
 						data: {
 							dbName: 'imageItemList',
 							pageNo: this.fetchPageNum + 1,
 							pageSize: this.fetchPageSize,
+							limitType: 3,
 							params: {
 								title: this.id
 							}
 						}
 					})
+					console.log('xxxxx2=',ret)
 				}
 				// errMsg: "collection.get:ok"
 				if (ret.errMsg !== 'cloud.callFunction:ok') {

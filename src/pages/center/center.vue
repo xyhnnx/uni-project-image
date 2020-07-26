@@ -37,7 +37,7 @@
 				<text class="list-text">关于</text>
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
-			<view class="center-list-item" @click="toImgOcr">
+			<view class="center-list-item" @click="toImgOcr" v-if="config.showImageRecognition">
 				<text class="list-icon">&#xe609;</text>
 				<text class="list-text">图片识别</text>
 				<text class="navigat-arrow">&#xe65e;</text>

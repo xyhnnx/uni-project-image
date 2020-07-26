@@ -94,10 +94,11 @@
 				this.search = e.detail.value || '美女'
 			},
 			searchClick () {
-				console.log('searchClick')
-				uni.navigateTo({
-					url: '/pages/img-search-list/img-search-list?search=' + this.search
-				})
+				setTimeout(()=>{
+					uni.navigateTo({
+						url: '/pages/img-search-list/img-search-list?search=' + this.search
+					})
+				},10)
 			}
 		},
 		onLoad() {
@@ -122,9 +123,11 @@
 	}
 	.btn {
 		background-color #FF80AB;
-		width: 100px;
 		color #fff
 		border-radius 0
+		border none
+		width auto
+		padding 0 20px
 	}
 
 }

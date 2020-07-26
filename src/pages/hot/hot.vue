@@ -82,7 +82,7 @@
 		},
 		methods: {
 			async getData() {
-				this.loadMoreText = '加载中'
+				this.loadMoreText = '加载中...'
 				// 先根据微信名nickName分组
 				const db = wx.cloud.database()
 				// uni.request({
@@ -109,11 +109,7 @@
 				}
 				this.totalCount = ret.result.totalCount
 				const data = ret.result.data;
-				if(this.totalCount<=0) {
-					this.loadMoreText = '暂无数据'
-					return;
-				}
-				if (this.refreshing && data[0]._id === (this.dataList[0] && this.dataList[0]._id)) {
+				if (this.refreshing && data[0] && data[0]._id === (this.dataList[0] && this.dataList[0]._id)) {
 					uni.showToast({
 						title: '已经最新',
 						icon: 'none',
@@ -139,6 +135,13 @@
 				} else {
 					this.dataList = this.dataList.concat(list);
 					this.fetchPageNum += 1;
+				}
+				if(this.dataList && this.dataList.length<=0) {
+					this.loadMoreText = '暂无数据'
+					this.refreshing = false;
+					uni.stopPullDownRefresh();
+					this.dataList = list;
+
 				}
 			},
 			newGuid() {
