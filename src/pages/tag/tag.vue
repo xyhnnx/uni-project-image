@@ -2,7 +2,7 @@
 	<view class="index">
 		<view class="tags">
 			<view class="search-box">
-				<input class="input" type="text" placeholder="请输入关键字搜索图片" @change="inputChange" name="checkValue" />
+				<input class="input" type="text" placeholder="请输入关键字搜索图片" @blur="inputChange" name="checkValue" />
 				<button type="default" class="btn" hover-class="hover" @click="searchClick">搜索</button>
 			</view>
 			<block v-for="(value, index) in data" :key="index">
@@ -20,7 +20,7 @@
 		data() {
 			return {
 				data: [],
-				search: '美女'
+				search: ''
 			}
 		},
 		methods: {
@@ -84,26 +84,38 @@
 							imageType: 2
 						})
 					}
+					this.data = []
 					// 添加到分类
 					this.data.push(...list2)
 
 				}
 			},
 			inputChange (e) {
-				console.log(e)
-				this.search = e.detail.value || '美女'
+				this.search = e.detail.value
 			},
 			searchClick () {
 				setTimeout(()=>{
-					uni.navigateTo({
-						url: '/pages/img-search-list/img-search-list?search=' + this.search
-					})
+					if(this.search) {
+						uni.navigateTo({
+							url: '/pages/img-search-list/img-search-list?search=' + this.search
+						})
+					} else {
+						uni.showToast({
+							title: '请输入关键字',
+							icon: 'none',
+						})
+					}
 				},10)
 			}
 		},
-		onLoad() {
-			this.getImageData();
-			this.getUserImageData();
+		async onPullDownRefresh() {
+			await this.getUserImageData();
+			await this.getImageData();
+			uni.stopPullDownRefresh();
+		},
+		async onLoad() {
+			await this.getUserImageData();
+			await this.getImageData();
 		}
 	}
 </script>

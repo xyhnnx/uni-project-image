@@ -94,6 +94,10 @@
 				});
 			}
 		},
+      async onPullDownRefresh() {
+        await this.getUserInfo()
+        uni.stopPullDownRefresh();
+      },
 		onLoad() {
 			this.getUserInfo()
 		}

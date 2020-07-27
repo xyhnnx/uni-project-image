@@ -160,33 +160,46 @@
 
 				}
 			},
-			download() {
-				uni.downloadFile({
-					url: this.data[this.index],
-					success: (e) => {
-						uni.saveImageToPhotosAlbum({
-							filePath: e.tempFilePath,
-							success: () => {
-								uni.showToast({
-									icon: 'none',
-									title: '已保存到手机相册'
-								})
-							},
-							fail: () => {
-								uni.showToast({
-									icon: 'none',
-									title: '保存到手机相册失败'
-								})
-							}
-						});
-					},
-					fail: (e) => {
-						uni.showModal({
-							content: '下载失败，' + e.errMsg,
-							showCancel: false
-						})
-					}
-				})
+			async download() {
+				let funcSave = (filePath)=> {
+					wx.saveImageToPhotosAlbum({
+						filePath,
+						success: () => {
+							uni.showToast({
+								icon: 'none',
+								title: '已保存到手机相册'
+							})
+						},
+						fail: (e) => {
+							console.log(e)
+							uni.showToast({
+								icon: 'none',
+								title: '保存到手机相册失败'
+							})
+						}
+					});
+				}
+				let url = this.data[this.index].src
+				if(url.startsWith('http')) {
+					wx.downloadFile({
+						url,
+						success: (e) => {
+							funcSave(e.tempFilePath)
+						},
+						fail: (e) => {
+							uni.showModal({
+								content: '下载失败，' + e.errMsg,
+								showCancel: false
+							})
+						}
+					})
+				} else {
+					let res = await wx.cloud.downloadFile({
+						fileID: url
+					})
+					funcSave(res.tempFilePath)
+				}
+
 			},
 			collect() {
 				uni.showToast({
@@ -207,7 +220,7 @@
 					plus.android.importClass(wallpaperManager);
 					var BitmapFactory = plus.android.importClass('android.graphics.BitmapFactory');
 					uni.downloadFile({
-						url: this.data[this.index],
+						url: this.data[this.index].src,
 						success: (e) => {
 							var filePath = plus.io.convertLocalFileSystemURL(e.tempFilePath);
 							var bitmap = BitmapFactory.decodeFile(filePath);
@@ -252,7 +265,7 @@
 				setTimeout(() => {
 					uni.previewImage({
 						current: this.data[index].src,
-						urls: this.data
+						urls: this.data.map(e => e.src)
 					})
 				}, 150)
 			},

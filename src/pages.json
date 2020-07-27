@@ -4,7 +4,7 @@
 			"path": "pages/center/center",
 			"style": {
 				"navigationBarTitleText": "个人中心",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -54,7 +54,7 @@
 			"path": "pages/tag/tag",
 			"style": {
 				"navigationBarTitleText": "分类",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": true
 			}
 		},
 		{

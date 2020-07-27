@@ -130,7 +130,6 @@
 						}
 					})
 				}else{
-					console.log('xxxxx1')
 					ret = await wx.cloud.callFunction({
 						name: 'getDbListData',
 						data: {
@@ -143,7 +142,6 @@
 							}
 						}
 					})
-					console.log('xxxxx2=',ret)
 				}
 				// errMsg: "collection.get:ok"
 				if (ret.errMsg !== 'cloud.callFunction:ok') {
@@ -152,6 +150,9 @@
 				}
 				this.totalCount = ret.result.totalCount
 				const data = ret.result.data;
+				if(this.totalCount <= this.fetchPageSize) {
+					this.loadMoreText = '没有更多了'
+				}
 
 				if (this.refreshing && data[0]._id === this.dataList[0]._id) {
 					uni.showToast({
@@ -261,10 +262,10 @@
 							scene: this.providerList[res.tapIndex].type && this.providerList[res.tapIndex].type === 'WXSenceTimeline' ?
 								'WXSenceTimeline' : 'WXSceneSession',
 							type: 0,
-							title: 'uni-app模版',
+							title: 'xyhnnx',
 							summary: e.title,
-							imageUrl: e.img_src,
-							href: 'https://uniapp.dcloud.io',
+							imageUrl: e.src,
+							href: e.src,
 							success: (res) => {
 								console.log('success:' + JSON.stringify(res));
 							},
@@ -285,9 +286,13 @@
 <style scoped>
 	.grid {
 		padding-top: 10px;
+		width: 100%;
 	}
 
 	.grid-c-12 {
 		justify-content: center;
+	}
+	.grid-c-06 {
+		max-height: 320px;
 	}
 </style>

@@ -25,7 +25,7 @@ const store = new Vuex.Store({
 					limitType: 1
 				}
 			})
-			state.userInfo = userInfoData.result.data[0];
+			state.userInfo = userInfoData.result.data[0] || {};
 		},
 		async getConfig(state) {
 			let resData = await wx.cloud.callFunction({
@@ -37,8 +37,7 @@ const store = new Vuex.Store({
 					limitType: 3
 				}
 			})
-			console.log(resData)
-			state.config = resData.result.data[0];
+			state.config = resData.result.data[0] || {};
 		},
 		logout(state) {
 			state.userName = "";
