@@ -47,6 +47,11 @@
 				<text class="list-text">test</text>
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
+			<view class="center-list-item" @click="toPage('/pages/oil-compute/oil-compute')" v-if="config.showOilConsumptionCompute">
+				<text class="list-icon">&#xe609;</text>
+				<text class="list-text">油耗计算</text>
+				<text class="navigat-arrow">&#xe65e;</text>
+			</view>
 		</view>
 	</view>
 </template>
@@ -87,6 +92,11 @@
 					url: '/pages/test/test'
 				});
 			},
+			toPage (url) {
+				uni.navigateTo({
+					url
+				});
+			},
 			// s是
 			goUploadImg () {
 				uni.navigateTo({
@@ -95,7 +105,7 @@
 			}
 		},
       async onPullDownRefresh() {
-        await this.getUserInfo()
+        await this.$store.commit('getConfig')
         uni.stopPullDownRefresh();
       },
 		onLoad() {

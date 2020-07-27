@@ -92,6 +92,12 @@
 			"style": {
 				"navigationBarTitleText": "图片识别"
 			}
+		},
+		{
+			"path": "pages/oil-compute/oil-compute",
+			"style": {
+				"navigationBarTitleText": "油耗计算"
+			}
 		}
 	],
 	"globalStyle": {
