@@ -40,7 +40,6 @@
 					num: $.sum(1)
 				})
 				.end()
-				console.log(res)
 				// 再每组取一条数据
 				if(res && res.list && res.list.length) {
 					let list2 = []

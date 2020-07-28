@@ -105,9 +105,21 @@
 					console.log('请求失败', ret)
 					return;
 				}
+				if(ret.result.totalCount === 0) { // 没有数据则获取公共数据
+					ret = await wx.cloud.callFunction({
+						name: 'getDbListData',
+						data: {
+							dbName: 'commonImageList',
+							pageNo: this.fetchPageNum + 1,
+							pageSize: this.fetchPageSize,
+							limitType: 3,
+							params: {
+							},
+						}
+					})
+				}
 				this.totalCount = ret.result.totalCount
 				const data = ret.result.data;
-
 				if (this.refreshing && data[0] && data[0]._id === this.dataList[0]._id) {
 					uni.showToast({
 						title: '已经最新',
@@ -125,8 +137,8 @@
 						fileID: item.fileID,
 						img_num: 1,
 						_id: item._id,
-						title: item.nickName,
-						src: item.fileID
+						title: item.nickName || item.title,
+						src: item.fileID || item.src
 					});
 				}
 
@@ -137,6 +149,9 @@
 				} else {
 					this.dataList = this.dataList.concat(list);
 					this.fetchPageNum += 1;
+				}
+				if(data.length < this.fetchPageSize) {
+					this.loadMoreText = '没有更多了'
 				}
 				if(this.dataList && this.dataList.length<=0) {
 					this.loadMoreText = '暂无数据'

@@ -1,5 +1,5 @@
 <template>
-	<view class="index">
+	<view class="index-hot">
 		<view class="grid">
 			<view class="grid-c-06" v-for="(item,index) in dataList" :key="item.src">
 				<view class="panel" @click="goDetail(item,index)">
@@ -30,7 +30,7 @@
 				fetchPageSize: 5
 			}
 		},
-		onLoad() {
+		async onLoad() {
 			this.getData();
 			uni.getProvider({
 				service: 'share',
@@ -107,9 +107,22 @@
 					console.log('请求失败', ret)
 					return;
 				}
+				if(ret.result.totalCount === 0) { // 没有数据则获取公共数据
+					ret = await wx.cloud.callFunction({
+						name: 'getDbListData',
+						data: {
+							dbName: 'commonImageList',
+							pageNo: this.fetchPageNum + 1,
+							pageSize: this.fetchPageSize,
+							limitType: 3,
+							params: {
+							},
+						}
+					})
+				}
 				this.totalCount = ret.result.totalCount
 				const data = ret.result.data;
-				if (this.refreshing && data[0] && data[0]._id === (this.dataList[0] && this.dataList[0]._id)) {
+				if (this.refreshing && data[0] && data[0]._id === this.dataList[0]._id) {
 					uni.showToast({
 						title: '已经最新',
 						icon: 'none',
@@ -124,9 +137,11 @@
 					var item = data[i];
 					list.push({
 						src: item.src,
-						title: item.search,
+						title: item.title || item.search,
+						_id: item._id
 					});
 				}
+
 
 				if (this.refreshing) {
 					this.refreshing = false;
@@ -135,6 +150,9 @@
 				} else {
 					this.dataList = this.dataList.concat(list);
 					this.fetchPageNum += 1;
+				}
+				if(data.length < this.fetchPageSize) {
+					this.loadMoreText = '没有更多了'
 				}
 				if(this.dataList && this.dataList.length<=0) {
 					this.loadMoreText = '暂无数据'
@@ -195,8 +213,14 @@
 	}
 </script>
 
-<style>
+<style scoped lang="stylus">
+	.index-hot
+		display flex
+		flex-wrap wrap
+		justify-content center
 	.grid{
 		padding-top: 10px;
 	}
+	.loadMore
+		text-align center
 </style>
