@@ -1,24 +1,24 @@
 <template>
 	<form class='loginView'>
 		<view class="input-view">
-			<input class="input" type="number" v-model="unitPrice" placeholder="请输入油价（元/升）"/>
+			<input class="input" type="digit" v-model="unitPrice" placeholder="请输入油价（元/升）"/>
 		</view>
 		<view class="input-view">
-			<input class="input" type="number" v-model="totalPrice" placeholder="加油的总价格（元）"/>
+			<input class="input" type="digit" v-model="totalPrice" placeholder="加油的总价格（元）"/>
 		</view>
 		<view class="input-view">
-			<input class="input" type="number" v-model="km" placeholder="行驶里程数（公里）"/>
+			<input class="input" type="digit" v-model="km" placeholder="行驶里程数（公里）"/>
 		</view>
 		<view class="button-view">
 			<button type="primary" @click="compute">计算</button>
 		</view>
 		<view class="result-box">
 			<view class="card-item">
-				<text class="label">百公里油耗 </text>
+				<text class="label">百公里油耗</text>
 				<text class="value">{{oil100}}升</text>
 			</view>
 			<view class="card-item">
-				<text class="label">一公里耗费 </text>
+				<text class="label">一公里耗费</text>
 				<text class="value">{{money1km}}元</text>
 			</view>
 		</view>

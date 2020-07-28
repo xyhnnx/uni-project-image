@@ -2,7 +2,7 @@
 	<view class="index">
 		<view class="tags">
 			<view class="search-box">
-				<input class="input" type="text" placeholder="请输入关键字搜索图片" @blur="inputChange" name="checkValue" />
+				<input class="input" type="text" placeholder="请输入关键字搜索图片" v-model="search" />
 				<button type="default" class="btn" hover-class="hover" @click="searchClick">搜索</button>
 			</view>
 			<block v-for="(value, index) in data" :key="index">
@@ -90,9 +90,6 @@
 
 				}
 			},
-			inputChange (e) {
-				this.search = e.detail.value
-			},
 			searchClick () {
 				setTimeout(()=>{
 					if(this.search) {
@@ -127,7 +124,8 @@
 	margin: 10px;
 	border: 1px solid #FF80AB;
 	border-radius: 5px;
-	overflow hidden
+	overflow hidden;
+    height 40px;
 	.input{
 		flex: 1;
 		line-height 40px
