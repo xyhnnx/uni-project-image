@@ -1,10 +1,7 @@
 <template>
 	<view class="index">
 		<view class="tags">
-			<view class="search-box">
-				<input class="input" type="text" placeholder="请输入关键字搜索图片" v-model="search" />
-				<button type="default" class="btn" hover-class="hover" @click="searchClick">搜索</button>
-			</view>
+			<SearchBtn class="search-btn" placeholder="请输入关键字搜索图片" v-model="search" @searchClick="searchClick"></SearchBtn>
 			<block v-for="(value, index) in data" :key="index">
 				<view class="tag" @tap="goList(value)">
 					<image class="tag-img" :src="value.icon"></image>
@@ -16,7 +13,12 @@
 </template>
 
 <script>
+	import SearchBtn from '../components/search-btn'
+
 	export default {
+		components: {
+			SearchBtn
+		},
 		data() {
 			return {
 				data: [],
@@ -117,27 +119,7 @@
 </script>
 
 <style scoped lang="stylus">
-.search-box {
+.search-btn
 	width 100%
-	display: flex;
-	margin: 10px;
-	border: 1px solid #FF80AB;
-	border-radius: 5px;
-	overflow hidden;
-    height 40px;
-	.input{
-		flex: 1;
-		line-height 40px
-		padding 5px;
-	}
-	.btn {
-		background-color #FF80AB;
-		color #fff
-		border-radius 0
-		border none
-		width auto
-		padding 0 20px
-	}
-
-}
+	margin 10px
 </style>

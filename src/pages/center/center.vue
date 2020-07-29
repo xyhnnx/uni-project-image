@@ -52,6 +52,11 @@
 				<text class="list-text">油耗计算</text>
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
+			<view class="center-list-item" @click="toPage('/pages/video-search/video-search')" v-if="config.showOilConsumptionCompute">
+				<text class="list-icon">&#xe609;</text>
+				<text class="list-text">电影搜索</text>
+				<text class="navigat-arrow">&#xe65e;</text>
+			</view>
 		</view>
 	</view>
 </template>

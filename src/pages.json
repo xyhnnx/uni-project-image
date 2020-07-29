@@ -98,6 +98,12 @@
 			"style": {
 				"navigationBarTitleText": "油耗计算"
 			}
+		},
+		{
+			"path": "pages/video-search/video-search",
+			"style": {
+				"navigationBarTitleText": "电影搜索"
+			}
 		}
 	],
 	"globalStyle": {
