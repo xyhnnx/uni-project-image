@@ -15,6 +15,7 @@
 					<button type="default" class="login" hover-class="hover" @click="addData">add</button>
 					<button type="default" class="login" hover-class="hover" @click="getSearchImg">getSearchImg</button>
 					<button type="default" class="login" hover-class="hover" @click="puppeteer">puppeteer</button>
+					<button type="default" class="login" hover-class="hover" @click="getBingImg">getBingImg</button>
 				</view>
 			</form>
 		</view>
@@ -26,6 +27,8 @@
 </template>
 
 <script>
+	import {getBingImg} from "../../api/api"
+
 	export default {
 		data() {
 			return {};
@@ -126,6 +129,13 @@
 					);
 				})
 
+			},
+			// 获取必应图片保存到数据库
+			async getBingImg () {
+				let res2 = await wx.cloud.callFunction({
+					name: 'interval'
+				})
+				console.log(res2)
 			}
 		},
 		onLoad() {

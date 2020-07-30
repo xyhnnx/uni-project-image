@@ -23,3 +23,11 @@ export function getOcrAccurate (data = {},params = {}) {
     method: 'post'
   })
 }
+
+export function getBingImg (data = {}) {
+  return request({
+    url: 'https://api.66mz8.com/api/bing.php?format=json',
+    data,
+    method: 'get'
+  })
+}

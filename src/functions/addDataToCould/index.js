@@ -21,7 +21,6 @@ exports.main = async (event, context) => {
       let item = list[i];
       item.openId = item.openId || wxContext.OPENID
       item.createTime = new Date()
-      item.location = new db.Geo.Point(113, 23)
       let countRes
       if (primaryKey) { // 如果传来primaryKey；则先判断是否存在；不存在才添加
         countRes = await db.collection(dbName).where({
