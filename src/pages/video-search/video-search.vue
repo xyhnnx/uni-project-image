@@ -25,9 +25,9 @@
 			...mapMutations(['getUserInfo','setStateData']),
 			searchClick () {
 				wx.cloud.callFunction({
-					name: 'puppeteerUtil',
+					name: 'getSearchVideo',
 					data: {
-						search: this.search || '美女'
+						search: this.search || '小丑'
 					}
 				}).then(res => {
 					console.log('res',res)
