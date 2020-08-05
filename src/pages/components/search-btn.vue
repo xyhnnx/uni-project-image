@@ -2,7 +2,7 @@
     <view class="wrap">
         <view class="search-box">
             <input class="input" type="text" :placeholder="placeholder" v-model="search" />
-            <button type="default" class="btn" hover-class="hover" @click="$emit('searchClick')">搜索</button>
+            <button type="default" class="btn" hover-class="hover" @click="$emit('searchClick')">{{searchText}}</button>
         </view>
     </view>
 </template>
@@ -13,6 +13,10 @@
     props: {
       value: String,
       placeholder: String,
+      searchText: {
+        default: '搜索',
+        type: String
+      }
     },
     computed: {
       search: {
