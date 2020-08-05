@@ -8,13 +8,17 @@ cloud.init({
 const db = cloud.database({
   env
 })
-// 超管的openId
-const isAdminOpenIds = ['oPpLk5JYQ0i2cqoC3T-sxQzSPyOM']
 
 // 云函数入口函数 142xyh753869
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
-  let isAdmin = isAdminOpenIds.includes(wxContext.OPENID)
+  let powRes = await cloud.callFunction({
+    name: 'getUserPower',
+    data: {
+      openId: wxContext.OPENID
+    }
+  })
+  let isAdmin = powRes && powRes.result === -1
   const $ = db.command.aggregate
   let res =  await db.collection('userImageList').aggregate()
   .group({

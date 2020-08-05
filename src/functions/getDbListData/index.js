@@ -8,8 +8,6 @@ cloud.init({
 const db = cloud.database({
   env
 })
-// 超管的openId
-const isAdminOpenIds = ['oPpLk5JYQ0i2cqoC3T-sxQzSPyOM']
 
 // 云函数入口函数
 exports.main = async (event, context) => {
@@ -18,7 +16,13 @@ exports.main = async (event, context) => {
     let {params = {},orderName,orderType = 'desc',pageNo, pageSize,dbName,limitType = 2, isUserInfo} = event;
     // limitType 1 只看到自己 2 普通看到自己；超管看所有 3 都看到所有
     if(limitType === 2) {
-      let isAdmin = isAdminOpenIds.includes(wxContext.OPENID)
+      let powRes = await cloud.callFunction({
+        name: 'getUserPower',
+        data: {
+          openId: wxContext.OPENID
+        }
+      })
+      let isAdmin = powRes && powRes.result === -1
       if(!isAdmin) { // 如果不是超管，则只看到自己的，（超管看到所有）
         params.openId = wxContext.OPENID
       }

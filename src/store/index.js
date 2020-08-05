@@ -13,6 +13,7 @@ const store = new Vuex.Store({
 		hasLogin: false,
 		userInfo: {},
 		config: {},
+		userPower: 0, // -1 超管 1其他
 	},
 	mutations: {
 		async getUserInfo(state) {
@@ -38,6 +39,13 @@ const store = new Vuex.Store({
 				}
 			})
 			state.config = resData.result.data[0] || {};
+		},
+		async getUserPower(state) {
+			let resData = await wx.cloud.callFunction({
+				name: 'getUserPower',
+				data: {}
+			})
+			state.userPower = resData.result
 		},
 		logout(state) {
 			state.userName = "";
