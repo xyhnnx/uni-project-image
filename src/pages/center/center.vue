@@ -19,7 +19,7 @@
 				<!--<text class="navigat-arrow">&#xe65e;</text>-->
 			<!--</view>-->
 		<!--</view>-->
-		<view class="center-list" v-if="config.showUploadImage">
+		<view class="center-list" v-if="config.showUploadImage || userPower === -1">
 			<!--<view class="center-list-item border-bottom">-->
 				<!--<text class="list-icon">&#xe60b;</text>-->
 				<!--<text class="list-text">管理图片</text>-->
@@ -42,7 +42,7 @@
 				<text class="list-text">图片识别</text>
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
-			<view class="center-list-item" @click="goTest" v-if="config.showTest">
+			<view class="center-list-item" @click="goTest" v-if="config.showTest || userPower === -1">
 				<text class="list-icon">&#xe609;</text>
 				<text class="list-text">test</text>
 				<text class="navigat-arrow">&#xe65e;</text>
@@ -55,6 +55,11 @@
 			<view class="center-list-item" @click="toPage('/pages/video-search/video-search')" v-if="config.showSearchVideo">
 				<text class="list-icon">&#xe609;</text>
 				<text class="list-text">电影搜索</text>
+				<text class="navigat-arrow">&#xe65e;</text>
+			</view>
+			<view class="center-list-item" @click="toPage('/pages/page-to-QR/page-to-QR')" v-if="userPower === -1">
+				<text class="list-icon">&#xe609;</text>
+				<text class="list-text">获取二维码</text>
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
 		</view>
@@ -72,7 +77,7 @@
 				avatarUrl: '/static/logo.png',
 			}
 		},
-		computed: mapState(['userInfo','config']),
+		computed: mapState(['userInfo','config', 'userPower']),
 		methods: {
 			...mapMutations(['getUserInfo','setStateData']),
 			goLogin() {
@@ -111,10 +116,13 @@
 		},
       async onPullDownRefresh() {
         await this.$store.commit('getConfig')
+		await this.$store.commit('getUserPower')
+		  console.log(this.userPower,'userPower')
         uni.stopPullDownRefresh();
       },
 		onLoad() {
 			this.getUserInfo()
+
 		}
 	}
 </script>

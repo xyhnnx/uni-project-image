@@ -8,6 +8,7 @@
           }) //调用前需先调用init
           console.log('wx.cloud.init()')
           this.$store.commit('getConfig')
+          this.$store.commit('getUserPower')
 		},
 		onShow: function() {
 			console.log('App Show')

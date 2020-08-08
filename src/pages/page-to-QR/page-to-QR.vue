@@ -3,6 +3,7 @@
 		<view class="search-box">
 			<SearchBtn placeholder="pages/center/center" searchText="搜索" v-model="search" @searchClick="searchClick"></SearchBtn>
 		</view>
+		<image @click="preImg" class="image" mode="aspectFit" :src="src"></image>
 	</view>
 </template>
 
@@ -16,14 +17,21 @@
 	export default {
 		data() {
 			return {
-				search: '',
-				list: []
+				search: 'pages/center/center',
+				list: [],
+				src: ''
 			};
 		},
 		components: {SearchBtn},
         computed: mapState(['userInfo']),
 		methods: {
 			...mapMutations(['getUserInfo','setStateData']),
+			preImg(index) {
+				uni.previewImage({
+					current: this.src,
+					urls: [this.src]
+				})
+			},
 			async searchClick () {
 				uni.showLoading({
 					title: '加载中...'
@@ -48,6 +56,9 @@
 				}
 				if(res.errMsg === 'cloud.callFunction:ok' && res.result.status === 0) {
 					console.log('res',res)
+					let base64 = wx.arrayBufferToBase64(res.result.data.buffer)
+					console.log(base64)
+					this.src = 'data:image/jpeg;base64,' + base64
 				} else {
 					uni.showToast(
 							{
@@ -78,4 +89,7 @@
 	text-align center
 	margin 20px
 	color #999
+.image
+	width 100%
+	display block
 </style>

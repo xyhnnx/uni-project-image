@@ -104,6 +104,12 @@
 			"style": {
 				"navigationBarTitleText": "电影搜索"
 			}
+		},
+		{
+			"path": "pages/page-to-QR/page-to-QR",
+			"style": {
+				"navigationBarTitleText": "获取小程序二维码"
+			}
 		}
 	],
 	"globalStyle": {

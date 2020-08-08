@@ -8,22 +8,9 @@
 				<!-- #ifdef H5 -->
 				<image src="//img.cdn.aliyun.dcloud.net.cn/stream/qr/__UNI__FAD3FD9.png/256"></image>
 				<!-- #endif -->
-				<text class="tip">扫码体验看图App模板</text>
+				<text class="tip">微信号：xyhnnx</text>
 			</view>
 			<view class="desc">
-				基于uni-app开发的看图App模版，项目已开源。
-			</view>
-			<view class="source">
-				<view class="title">本示例源码获取方式：</view>
-				<view class="source-list">
-					<view class="source-cell">
-						<text space="nbsp">1. </text>
-						<text>下载 HBuilderX，新建 uni-app 项目时选择 看图App 模板。</text>
-					</view>
-					<view class="source-cell">
-						<text space="nbsp">2. </text><text @click="openLink" class="link">{{sourceLink}}</text>
-					</view>
-				</view>
 			</view>
 			<!-- #ifdef APP-PLUS -->
 			<button type="primary" @click="share">分享</button>

@@ -321,13 +321,6 @@ view.tag,
 	margin-right: 30upx;
 }
 
-.label {
-	flex: 1;
-	line-height: 60upx;
-	font-size: 38upx;
-	color: #555;
-	text-align: left;
-}
 
 .input {
 	flex: 1;
@@ -525,4 +518,11 @@ button.register {
 	flex-direction: column;
 	background-color: #FFFFFF;
 	margin-bottom: 10px;
+}
+.common-no-data-box {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	align-items: center;
+	justify-content: center;
 }

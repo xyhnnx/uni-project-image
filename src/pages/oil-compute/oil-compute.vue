@@ -22,27 +22,65 @@
 				<text class="value">{{money1km}}元</text>
 			</view>
 		</view>
+		<view class="history-box">
+			<view class="title">油耗计算历史</view>
+			<view class="history-list" v-if="historyList && historyList.length">
+				<view class="item" v-for="(item, index) in historyList" :key="index">
+					<view class="time">
+						{{showTime(item.createTime)}}
+					</view>
+					<view class="content">
+						<view  class="cell">
+							<view class="label">油价</view>
+							<view class="value">{{item.unitPrice}}</view>
+						</view>
+						<view  class="cell">
+							<view class="label">百公里油耗</view>
+							<view class="value">{{item.oil100}}升</view>
+						</view>
+						<view  class="cell">
+							<view class="label">每公里耗费</view>
+							<view class="value">{{item.money1km}}元</view>
+						</view>
+					</view>
+
+				</view>
+			</view>
+			<view v-else class="common-no-data-box">
+				<NoData :text="loading?'加载中...':'暂无数据'"></NoData>
+			</view>
+		</view>
 	</form>
 </template>
 
 <script>
+	import NoData from '../components/no-data'
 	import {
 		mapState,
 		mapMutations
 	} from 'vuex'
+	import * as util from '../../common/util'
 	export default {
+		components: {
+			NoData
+		},
 		data() {
 			return {
 				unitPrice: '',
 				totalPrice: '',
 				km: '',
 				oil100: 0,
-				money1km: 0
+				money1km: 0,
+				historyList: [],
+				loading: false
 			};
 		},
         computed: mapState(['userInfo']),
 		methods: {
 			...mapMutations(['getUserInfo','setStateData']),
+			showTime (time) {
+				return util.dateFormat(new Date(time).getTime())
+			},
 			compute () {
 				let msgArr = []
 				if(isNaN(Number(this.unitPrice)) || !this.unitPrice) {
@@ -90,16 +128,40 @@
 							]
 						}
 					}).then(res => {
+						this.getOilHistory()
 					})
+				}
+			},
+			// 获取历史油耗
+			async getOilHistory () {
+				this.loading = true
+				let res = await wx.cloud.callFunction({
+					name: 'getDbListData',
+					data: {
+						dbName: 'userOilCompute',
+						pageNo: 1,
+						pageSize: 50,
+						limitType: 1,
+						orderName: 'createTime',
+						orderType: 'desc',
+						params: {
+						},
+					}
+				})
+				this.loading = false
+				if (res.errMsg === 'cloud.callFunction:ok') {
+					this.historyList = res.result.data
 				}
 			}
 		},
 		async onLoad() {
+			this.getOilHistory()
 		}
 	}
 </script>
 
 <style lang="stylus" scoped>
+	@import "../../uni.styl"
 	.result-box
 		display flex
 		padding 20px 10px 10px;
@@ -110,5 +172,37 @@
 		.label
 			margin-right 5px
 		.value
-			color green
+			font-size 20px
+			color $uni-color-primary
+	.history-box
+		display block
+		background-color #fff
+		border-radius 5px;
+		box-shadow $uni-box-shadow
+		margin 20px 10px;
+		.title
+			justify-content center
+			line-height 50px
+			font-size 20px
+			border-bottom 1px solid $uni-border-color
+
+		.history-list
+			display block
+			.item
+				display block
+				padding 10px
+				.time
+					display block
+					border-bottom 1px solid $uni-border-color
+					line-height 24px
+				.content
+					display flex
+					justify-content space-between
+				.cell
+					align-items center
+					.label
+						font-size 12px
+					.value
+						font-size 14px
+						color $uni-color-primary
 </style>
