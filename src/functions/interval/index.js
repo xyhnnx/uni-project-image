@@ -21,6 +21,16 @@ async function getBingImg(params = {}) {
     // }
   })
 }
+async function goWebCSDN(params = {}) {
+  return fetch({
+    url: `https://blog.csdn.net/weixin_42170906/article/details/107889923`,
+    params,
+    method: 'get',
+    timeout: 3000,
+    // headers: {
+    // }
+  })
+}
 async function getImg(params = {}) {
   const wxContext = cloud.getWXContext()
   let stop = false
@@ -65,6 +75,7 @@ async function getImg(params = {}) {
 }
 // 云函数入口函数
 exports.main = async (event, context) => {
+  goWebCSDN()
   let count = await getImg()
   return {count}
 }
