@@ -15,7 +15,7 @@
 					<button type="default" class="login" hover-class="hover" @click="addData">add</button>
 					<button type="default" class="login" hover-class="hover" @click="getSearchImg">getSearchImg</button>
 					<button type="default" class="login" hover-class="hover" @click="puppeteer">puppeteer</button>
-					<button type="default" class="login" hover-class="hover" @click="getBingImg">getBingImg</button>
+					<button type="default" class="login" hover-class="hover" @click="getBingImg">interval</button>
 				</view>
 			</form>
 		</view>
@@ -27,7 +27,6 @@
 </template>
 
 <script>
-	import {getBingImg} from "../../api/api"
 
 	export default {
 		data() {

@@ -9,10 +9,11 @@ cloud.init({
 const db = cloud.database({
   env
 })
+let preFix = 'https://cn.bing.com'
 const fetch = require('./fetch')
 async function getBingImg(params = {}) {
   return fetch({
-    url: 'https://api.66mz8.com/api/bing.php?format=json',
+    url: `${preFix}/HPImageArchive.aspx?format=js&n=1&pid=hp&FORM=BEHPTB`,
     params,
     method: 'get',
     timeout: 3000,
@@ -24,13 +25,17 @@ async function getImg(params = {}) {
   const wxContext = cloud.getWXContext()
   let stop = false
   let idx = 0
+  let count = 0
   while (!stop) {
     let res = await getBingImg({
-      idx: idx
+      idx: idx,
+      nc: new Date().getTime()
     })
     idx ++
-    if(res.code === 200) {
+    console.log(res,idx)
+    if(res && res.images && res.images.length) {
       try {
+        let data = res.images[0]
         let res2 = await cloud.callFunction({
           name: 'addDataToCould',
           data: {
@@ -38,12 +43,13 @@ async function getImg(params = {}) {
             primaryKey: 'src',
             list: [
               {
-                src: res.img_url,
-                title:res.img_copr
+                src: `${preFix}${data.url}`,
+                title: data.copyright
               }
             ]
           }
         })
+        count += res2.result.data.addCount
         console.log(res2)
       }catch (e) {
         stop = true
@@ -51,13 +57,14 @@ async function getImg(params = {}) {
     } else {
       stop = true
     }
-    if(idx >=20) {
+    if(idx >=10) {
       stop = true
     }
   }
+  return count
 }
 // 云函数入口函数
 exports.main = async (event, context) => {
-  getImg()
-  return {}
+  let count = await getImg()
+  return {count}
 }
