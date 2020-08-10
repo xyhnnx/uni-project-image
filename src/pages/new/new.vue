@@ -115,21 +115,16 @@
 							limitType: 3,
 							params: {
 							},
+							orderName: 'createTime',
+							orderType: 'desc'
 						}
 					})
 				}
 				this.totalCount = ret.result.totalCount
 				const data = ret.result.data;
-				if (this.refreshing && data[0] && data[0]._id === this.dataList[0]._id) {
-					uni.showToast({
-						title: '已经最新',
-						icon: 'none',
-					});
-					this.refreshing = false;
-					uni.stopPullDownRefresh();
-					return;
+				if(data && data.length) {
+					this.fetchPageNum += 1;
 				}
-
 				let list = [];
 				for (var i = 0; i < data.length; i++) {
 					var item = data[i];
@@ -145,10 +140,15 @@
 				if (this.refreshing) {
 					this.refreshing = false;
 					uni.stopPullDownRefresh();
+					if (data[0] && data[0]._id === this.dataList[0]._id) {
+						uni.showToast({
+							title: '已经最新',
+							icon: 'none',
+						});
+					}
 					this.dataList = list;
 				} else {
 					this.dataList = this.dataList.concat(list);
-					this.fetchPageNum += 1;
 				}
 				if(data.length < this.fetchPageSize) {
 					this.loadMoreText = '没有更多了'

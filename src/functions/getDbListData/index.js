@@ -41,7 +41,7 @@ exports.main = async (event, context) => {
       let dbObj = await db.collection(dbName).where({
         ...params
       })
-      if(orderName) { // 如果需要排序
+      if(orderName) { // 如果需要排序 asc 或 desc
         dbObj = await dbObj.orderBy(orderName,orderType)
       }
       dbObj = await dbObj.skip((pageNo - 1) * pageSize) // 跳过结果集中的前 10 条，从第 11 条开始返回
