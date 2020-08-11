@@ -27,7 +27,7 @@
 </template>
 
 <script>
-
+	import * as util from '../../common/util'
 	export default {
 		data() {
 			return {};
@@ -135,7 +135,45 @@
 					name: 'interval'
 				})
 				console.log(res2)
-			}
+			},
+			// 添加数据到commonImageList 只能调用一次
+			async addImg () {
+				// 浏览器
+				// 渲染URL
+				const prefix = `https://6d65-me-oacid-1300610701.tcb.qcloud.la`;
+				let stop = false;
+				let nowTime = new Date().getTime();
+				let arr = []
+				while (!stop) {
+					let timeStr = util.dateFormat(nowTime, 'yyyyMMdd')
+					let url = `${prefix}/BING/${timeStr}.jpg`
+					arr.push({
+						src: url,
+						createTime:  new Date(nowTime)
+					})
+					nowTime = nowTime - (24 * 60 * 60 * 1000)
+					if (nowTime <= new Date('2019-01-01').getTime()) {
+						stop = true
+					}
+				}
+				console.log(arr)
+				const db = wx.cloud.database()
+				console.log(db)
+				arr.forEach((e, i) => {
+
+				})
+				for(let i = 0;i<arr.length;i++) {
+					let e = arr[i]
+					let res = await db.collection('commonImageList').add({
+						// data 字段表示需新增的 JSON 数据
+						data: {
+							...e,
+						}
+					})
+					console.log(`第${i}条数据`)
+				}
+
+			},
 		},
 		onLoad() {
 			console.log('load---')
