@@ -18,7 +18,8 @@
 			"path": "pages/new/new2",
 			"style": {
 				"navigationBarTitleText": "最新",
-				"enablePullDownRefresh": true
+				"enablePullDownRefresh": true,
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -149,5 +150,8 @@
 				"text": "我的"
 			}
 		]
+	},
+	"window": {
+		"backgroundColor": "#111111"
 	}
 }

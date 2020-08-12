@@ -20,11 +20,11 @@
 </script>
 
 <style lang="stylus">
-	@import './common/common.styl';
     @import "./uni.styl"
-	page,
-	view {
+    @import './common/common.styl';
+	page, view {
 		display: flex;
+        color $uni-text-color
 	}
 
 	page {

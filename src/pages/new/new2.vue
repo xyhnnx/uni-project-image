@@ -9,7 +9,7 @@
 			<view class="new">今日最新</view>
 			<image  @click="goDetail(0)" class="first-image"
 					:src="totalDataList && totalDataList[0] && totalDataList[0].src"
-					mode="aspectFit">
+					mode="widthFix">
 			</image>
 		</view>
 		<view class="list-box">
@@ -124,24 +124,31 @@
 	display block
 	width 100%
 .head-area
+	padding-top: 80px;
 	display flex
 	flex-direction column
 	align-items center
 	width 100%
 	color white
 	background-color $uni-color-primary
+	padding-bottom 10px
 	.name
 		font-size 20px
+		line-height 30px
 	.tip
 		font-size 14px
+		line-height 20px
 	.count
 		font-size 12px
+		line-height 20px
 .first-image-box
-	display block
+	display flex
 	width 100%
 	position relative
 	.first-image
 		width 100%
+		box-sizing border-box
+		padding 0 1px
 	.new
 		position absolute
 		right 0
@@ -153,10 +160,19 @@
 	width 100%
 	display flex
 	flex-wrap wrap
+	box-sizing border-box
+	padding 1px
 	.list-item
+		&:nth-child(2n)
+			.img
+				padding-right 0
 		width 50%
+		height calc(100vw / 2 * 2.16)
 		.img
+			box-sizing border-box
 			width 100%
-			height calc(100vw / 2 * 2.16)
+			height 100%
+			padding 0 1px 1px 0
 			display block
+
 </style>
