@@ -25,8 +25,9 @@ export function getOcrAccurate (data = {},params = {}) {
 }
 
 export function getBingImg (data = {}) {
+  let preFix = 'https://cn.bing.com'
   return request({
-    url: 'https://api.66mz8.com/api/bing.php?format=json',
+    url: `${preFix}/HPImageArchive.aspx?format=js&n=1&pid=hp&FORM=BEHPTB`,
     data,
     method: 'get'
   })

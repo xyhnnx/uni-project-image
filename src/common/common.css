@@ -133,6 +133,8 @@
 
 
 .loadMore {
+	text-align: center;
+	display: block;
 	font-size: 30upx;
 	color: #555;
 	margin-bottom: 20upx;

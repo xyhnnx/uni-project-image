@@ -15,6 +15,13 @@
 			}
 		},
 		{
+			"path": "pages/new/new2",
+			"style": {
+				"navigationBarTitleText": "最新",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
 			"path": "pages/login/login",
 			"style": {
 				"navigationBarTitleText": "登录"
@@ -124,7 +131,7 @@
 		"borderStyle": "black",
 		"backgroundColor": "#ffffff",
 		"list": [{
-				"pagePath": "pages/new/new",
+				"pagePath": "pages/new/new2",
 				"iconPath": "static/index-0.png",
 				"selectedIconPath": "static/index-1.png",
 				"text": "最新"
