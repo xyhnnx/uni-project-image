@@ -1,6 +1,14 @@
 {
 	"pages": [
 		{
+			"path": "pages/new/new2",
+			"style": {
+				"navigationBarTitleText": "最新",
+				"enablePullDownRefresh": true,
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/center/center",
 			"style": {
 				"navigationBarTitleText": "个人中心",
@@ -12,14 +20,6 @@
 			"style": {
 				"navigationBarTitleText": "最新",
 				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/new/new2",
-			"style": {
-				"navigationBarTitleText": "最新",
-				"enablePullDownRefresh": true,
-				"navigationStyle": "custom"
 			}
 		},
 		{

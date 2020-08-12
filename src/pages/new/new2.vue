@@ -1,8 +1,8 @@
 <template>
 	<view class="new-page">
 		<view class="head-area">
-			<view class="name">必应图片</view>
-			<view class="tip">选取于微软必应搜索图片</view>
+			<view class="name">必应壁纸</view>
+			<view class="tip">选取于微软必应精品壁纸</view>
 			<view class="count">- 共{{totalDataList.length}}张 -</view>
 		</view>
 		<view class="first-image-box">
@@ -124,7 +124,7 @@
 	display block
 	width 100%
 .head-area
-	padding-top: 80px;
+	padding-top: 70px;
 	display flex
 	flex-direction column
 	align-items center
@@ -133,8 +133,9 @@
 	background-color $uni-color-primary
 	padding-bottom 10px
 	.name
-		font-size 20px
-		line-height 30px
+		font-weight bold
+		font-size 30px
+		line-height 50px
 	.tip
 		font-size 14px
 		line-height 20px
