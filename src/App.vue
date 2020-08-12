@@ -19,18 +19,18 @@
 	}
 </script>
 
-<style>
-	@import './common/common.css';
-
-	page,
-	view {
+<style lang="stylus">
+    @import "./uni.styl"
+    @import './common/common.styl';
+	page, view {
 		display: flex;
+        color $uni-text-color
 	}
 
 	page {
 		display: flex;
 		min-height: 100%;
-		background-color: #EFEFEF;
+		background-color: $uni-color-primary;
 	}
 
 	template {

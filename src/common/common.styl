@@ -1,3 +1,4 @@
+@import "../uni.styl"
 @font-face {
 	font-family: texticons;
 	font-weight: normal;
@@ -32,32 +33,7 @@
 	background-color: #FFFFFF;
 }
 
-.card-img {
-	width: 710upx;
-	height: 1065upx;
-}
 
-.card-num {
-	color: #FFFFFF;
-	font-size: 13px;
-	text-align: center;
-}
-
-.card-num-view {
-	background-color: #FF80AB;
-	line-height: 1;
-	display: inline-block;
-	padding: 3px 6px;
-	color: #FFFFFF;
-	font-size: 12px;
-	text-align: center;
-	justify-content: center;
-	align-items: center;
-	border-radius: 15px;
-	position: absolute;
-	top: 20upx;
-	right: 20upx;
-}
 
 .card-bottm {
 	justify-content: center;
@@ -68,7 +44,7 @@
 	justify-content: center;
 	align-items: center;
 	padding: 14upx 0;
-	color: #FF80AB;
+	color: #111111;
 	margin: 20upx 20upx 20upx;
 	font-size: 30upx;
 	font-family: texticons;
@@ -133,6 +109,8 @@
 
 
 .loadMore {
+	text-align: center;
+	display: block;
 	font-size: 30upx;
 	color: #555;
 	margin-bottom: 20upx;
@@ -146,7 +124,7 @@
 /* 分类页面 */
 
 .tags {
-	background: #fff;
+	background: $uni-color-primary;
 	flex: 1;
 	width: 710upx;
 	margin: 20upx;
@@ -175,119 +153,10 @@ view.tag,
 
 .tag-text {
 	font-size: 28upx;
-	color: #555555;
+	color: $uni-text-color;
 }
 
 
-
-
-
-/* 个人中心 */
-
-.center {
-	flex-direction: column;
-	min-height: 100vh;
-}
-
-.logo {
-	width: 750upx;
-	height: 240upx;
-	padding: 20upx;
-	box-sizing: border-box;
-	background-color: #FF80AB;
-	flex-direction: row;
-	align-items: center;
-}
-
-.logo-hover {
-	opacity: 0.8;
-}
-
-.logo-img {
-	width: 150upx;
-	height: 150upx;
-	border-radius: 150upx;
-}
-
-.logo-title {
-	height: 150upx;
-	flex: 1;
-	align-items: center;
-	justify-content: space-between;
-	flex-direction: row;
-	margin-left: 20upx;
-}
-
-.uer-name {
-	height: 60upx;
-	line-height: 60upx;
-	font-size: 38upx;
-	color: #FFFFFF;
-}
-
-.go-login.navigat-arrow {
-	font-size: 38upx;
-	color: #FFFFFF;
-}
-
-.login-title {
-	height: 150upx;
-	align-items: self-start;
-	justify-content: center;
-	flex-direction: column;
-	margin-left: 20upx;
-}
-
-.center-list {
-	background-color: #FFFFFF;
-	margin-top: 20upx;
-	width: 750upx;
-	flex-direction: column;
-}
-
-.center-list-item {
-	height: 90upx;
-	width: 750upx;
-	box-sizing: border-box;
-	flex-direction: row;
-	padding: 0upx 20upx;
-}
-
-.border-bottom {
-	border-bottom-width: 1upx;
-	border-color: #c8c7cc;
-	border-bottom-style: solid;
-}
-
-.list-icon {
-	width: 40upx;
-	height: 90upx;
-	line-height: 90upx;
-	font-size: 34upx;
-	color: #FF80AB;
-	text-align: center;
-	font-family: texticons;
-	margin-right: 20upx;
-}
-
-.list-text {
-	height: 90upx;
-	line-height: 90upx;
-	font-size: 34upx;
-	color: #555;
-	flex: 1;
-	text-align: left;
-}
-
-.navigat-arrow {
-	height: 90upx;
-	width: 40upx;
-	line-height: 90upx;
-	font-size: 34upx;
-	color: #555;
-	text-align: right;
-	font-family: texticons;
-}
 
 
 
@@ -346,15 +215,15 @@ button {
 }
 
 button.login {
-	background-color: #FF80AB;
+	background-color: $uni-color-primary;
 	color: #fff;
 }
 
 button.register {
 	margin-top: 30upx;
-	color: #FF80AB;
+	color: $uni-color-primary;
 	background-color: #fff;
-	border-color: #FF80AB;
+	border-color: $uni-color-primary;
 	border-width: 2upx;
 }
 
