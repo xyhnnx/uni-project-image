@@ -122,25 +122,19 @@
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "看图",
-		"navigationBarBackgroundColor": "#FF80AB",
-		"backgroundColor": "#EFEFEF"
+		"navigationBarBackgroundColor": "#111111",
+		"backgroundColor": "#111111"
 	},
 	"tabBar": {
-		"color": "#444444",
-		"selectedColor": "#FF80AB",
+		"color": "#aaa",
+		"selectedColor": "#fff",
 		"borderStyle": "black",
-		"backgroundColor": "#ffffff",
+		"backgroundColor": "#1b1b1b",
 		"list": [{
 				"pagePath": "pages/new/new2",
 				"iconPath": "static/index-0.png",
 				"selectedIconPath": "static/index-1.png",
 				"text": "最新"
-			},
-			{
-				"pagePath": "pages/hot/hot",
-				"iconPath": "static/hot-0.png",
-				"selectedIconPath": "static/hot-1.png",
-				"text": "推荐"
 			},
 			{
 				"pagePath": "pages/tag/tag",

@@ -1,3 +1,4 @@
+@import "../uni.styl"
 @font-face {
 	font-family: texticons;
 	font-weight: normal;
@@ -32,32 +33,7 @@
 	background-color: #FFFFFF;
 }
 
-.card-img {
-	width: 710upx;
-	height: 1065upx;
-}
 
-.card-num {
-	color: #FFFFFF;
-	font-size: 13px;
-	text-align: center;
-}
-
-.card-num-view {
-	background-color: #FF80AB;
-	line-height: 1;
-	display: inline-block;
-	padding: 3px 6px;
-	color: #FFFFFF;
-	font-size: 12px;
-	text-align: center;
-	justify-content: center;
-	align-items: center;
-	border-radius: 15px;
-	position: absolute;
-	top: 20upx;
-	right: 20upx;
-}
 
 .card-bottm {
 	justify-content: center;
@@ -68,7 +44,7 @@
 	justify-content: center;
 	align-items: center;
 	padding: 14upx 0;
-	color: #FF80AB;
+	color: #111111;
 	margin: 20upx 20upx 20upx;
 	font-size: 30upx;
 	font-family: texticons;
@@ -148,7 +124,7 @@
 /* 分类页面 */
 
 .tags {
-	background: #fff;
+	background: $uni-color-primary;
 	flex: 1;
 	width: 710upx;
 	margin: 20upx;
@@ -177,7 +153,7 @@ view.tag,
 
 .tag-text {
 	font-size: 28upx;
-	color: #555555;
+	color: $uni-text-color;
 }
 
 
@@ -196,7 +172,7 @@ view.tag,
 	height: 240upx;
 	padding: 20upx;
 	box-sizing: border-box;
-	background-color: #FF80AB;
+	background-color: $uni-color-primary;
 	flex-direction: row;
 	align-items: center;
 }
@@ -266,7 +242,7 @@ view.tag,
 	height: 90upx;
 	line-height: 90upx;
 	font-size: 34upx;
-	color: #FF80AB;
+	color: $uni-color-primary;
 	text-align: center;
 	font-family: texticons;
 	margin-right: 20upx;
@@ -348,15 +324,15 @@ button {
 }
 
 button.login {
-	background-color: #FF80AB;
+	background-color: $uni-color-primary;
 	color: #fff;
 }
 
 button.register {
 	margin-top: 30upx;
-	color: #FF80AB;
+	color: $uni-color-primary;
 	background-color: #fff;
-	border-color: #FF80AB;
+	border-color: $uni-color-primary;
 	border-width: 2upx;
 }
 

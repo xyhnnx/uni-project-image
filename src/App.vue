@@ -19,9 +19,9 @@
 	}
 </script>
 
-<style>
-	@import './common/common.css';
-
+<style lang="stylus">
+	@import './common/common.styl';
+    @import "./uni.styl"
 	page,
 	view {
 		display: flex;
@@ -30,7 +30,7 @@
 	page {
 		display: flex;
 		min-height: 100%;
-		background-color: #EFEFEF;
+		background-color: $uni-color-primary;
 	}
 
 	template {
