@@ -40,11 +40,6 @@
 		computed: {
 			dataList () {
 				return this.totalDataList.filter((e , i) => i < this.showCount)
-			},
-			imageHeight () {
-				let windowWidth = uni.getSystemInfoSync().windowWidth
-				// 图片高度是宽度的2.16倍
-				this.imageHeight = windowWidth / 2 * 2.16
 			}
 		},
 		onReachBottom() {
@@ -155,8 +150,9 @@
 		right 0
 		top 0
 		font-size 12px
-		padding 10px
+		padding 10px 15px 0 0
 		color #fff
+		font-weight bold
 .list-box
 	width 100%
 	display flex
@@ -164,15 +160,10 @@
 	box-sizing border-box
 	padding 1px
 	.list-item
-		&:nth-child(2n)
-			.img
-				padding-right 0
-		width 50%
-		height calc(100vw / 2 * 2.16)
+		width 100%
 		.img
 			box-sizing border-box
 			width 100%
-			height 100%
 			padding 0 1px 1px 0
 			display block
 

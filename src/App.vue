@@ -9,6 +9,7 @@
           console.log('wx.cloud.init()')
           this.$store.commit('getConfig')
           this.$store.commit('getUserPower')
+          this.$store.commit('getTagList')
 		},
 		onShow: function() {
 			console.log('App Show')
