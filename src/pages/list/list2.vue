@@ -2,7 +2,6 @@
 	<view class="new-page">
 		<view class="list-box">
 			<view v-for="(item, index) in dataList"
-				  v-if="index>0"
 				  @click="goDetail(index)"
 				  :key="item.src"
 				  class="list-item">
@@ -23,14 +22,13 @@
 				totalDataList: [],
 				loadMoreText: '',
 				loading: false,
-				showCount: 10,
 				num: 10,
 				nextPageUrl: null
 			}
 		},
 		computed: {
 			dataList () {
-				return this.totalDataList.filter((e , i) => i < this.showCount).map(e => {
+				return this.totalDataList.map(e => {
 					return {
 						src: e.url
 					}
@@ -48,7 +46,6 @@
 
 		methods: {
 			async getData() {
-				this.showCount += this.num;
 				this.loadMoreText = '加载中...'
 				await this.getListData()
 				this.loadMoreText = ''
@@ -81,7 +78,6 @@
 				title: query.name || ''
 			});
 			this.categoryId = query.id
-			await this.getListData()
 			await this.getListData()
 
 		},
