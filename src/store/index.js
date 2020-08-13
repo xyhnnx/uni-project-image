@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import * as api from '../api/api'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -13,6 +13,7 @@ const store = new Vuex.Store({
 		hasLogin: false,
 		userInfo: {},
 		config: {},
+		tagList: [],
 		userPower: 0, // -1 超管 1其他
 	},
 	mutations: {
@@ -46,6 +47,13 @@ const store = new Vuex.Store({
 				data: {}
 			})
 			state.userPower = resData.result
+		},
+		// 获取分类图片
+		async getTagList (state) {
+			let resData = await api.getKaiYanTagList()
+			if(resData && resData.itemList && resData.itemList.length) {
+				state.tagList = resData.itemList
+			}
 		},
 		logout(state) {
 			state.userName = "";

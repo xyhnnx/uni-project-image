@@ -32,3 +32,20 @@ export function getBingImg (data = {}) {
     method: 'get'
   })
 }
+export function getKaiYanTagList (data = {}) {
+  let preFix = 'https://baobab.kaiyanapp.com'
+  return request({
+    url: `${preFix}/api/v1/wallpapers/categories`,
+    data,
+    method: 'get'
+  })
+}
+
+export function getKaiYanTagItemList (data = {}) {
+  let preFix = 'https://baobab.kaiyanapp.com'
+  let url = data.nextPageUrl || `${preFix}/api/v1/wallpapers/category`
+  return request({
+    url,
+    method: 'get'
+  })
+}

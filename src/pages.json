@@ -66,6 +66,12 @@
 			}
 		},
 		{
+			"path": "pages/tag/tag2",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/list/list",
 			"style": {
 				"navigationBarTitleText": "专题",
@@ -138,7 +144,7 @@
 				"text": "最新"
 			},
 			{
-				"pagePath": "pages/tag/tag",
+				"pagePath": "pages/tag/tag2",
 				"iconPath": "static/tag-0.png",
 				"selectedIconPath": "static/tag-1.png",
 				"text": "分类"
