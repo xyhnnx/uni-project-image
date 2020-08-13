@@ -42,6 +42,9 @@
 				})
 			},
 		},
+		// 加了这个页面才可以被分享
+		onShareAppMessage () {
+		},
 		async onLoad() {
 		}
 	}

@@ -8,7 +8,7 @@
 			<!--</view>-->
 		<!--</view>-->
 		<view class="logo" :hover-class="!userInfo.isLogin ? 'logo-hover' : ''">
-			<button class="get-user-button" @getuserinfo="getUserInfo" open-type="getUserInfo">
+			<button class="get-user-button" @getuserinfo="getUserInfoClick" open-type="getUserInfo">
 				<image class="logo-img" mode="widthFix" :src="userInfo.avatarUrl ? userInfo.avatarUrl :avatarUrl"></image>
 				<view class="logo-title">
 					<view class="uer-name">{{userInfo.nickName ? userInfo.nickName : '点击授权用户信息'}}
@@ -41,6 +41,11 @@
 				<text class="list-text">关于</text>
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
+            <view class="center-list-item border-bottom" @click="goAbout">
+                <text class="list-icon">&#xe603;</text>
+                <text class="list-text">分享</text>
+                <text class="navigat-arrow">&#xe65e;</text>
+            </view>
 			<view class="center-list-item" @click="toImgOcr" v-if="config.showImageRecognition">
 				<text class="list-icon">&#xe609;</text>
 				<text class="list-text">图片识别</text>
@@ -84,6 +89,26 @@
 		computed: mapState(['userInfo','config', 'userPower']),
 		methods: {
 			...mapMutations(['getUserInfo','setStateData']),
+            getUserInfoClick (e) {
+              e.detail.userInfo.isLogin = true
+              wx.cloud.init()                              //调用前需先调用init
+              wx.cloud.callFunction({
+                name: 'addDataToCould',
+                data: {
+                  dbName: 'userList',
+                  primaryKey: 'openId',
+                  list: [e.detail.userInfo]
+                }
+              }).then(async res => {
+                await this.getUserInfo()
+                uni.showToast(
+                  {
+                    title: `获取信息成功!`,
+                    icon: 'none',
+                  }
+                );
+              })
+            },
 			goLogin() {
 				if (!this.userInfo.isLogin) {
 					uni.navigateTo({
@@ -123,6 +148,9 @@
 		await this.$store.commit('getUserPower')
 		  console.log(this.userPower,'userPower')
         uni.stopPullDownRefresh();
+      },
+      // 加了这个页面才可以被分享
+      onShareAppMessage () {
       },
 		onLoad() {
 			this.getUserInfo()

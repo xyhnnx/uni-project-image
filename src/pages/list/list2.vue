@@ -74,6 +74,9 @@
 				this.nextPageUrl = res && res.nextPageUrl
 			},
 		},
+		// 加了这个页面才可以被分享
+		onShareAppMessage () {
+		},
 		async onLoad(query) {
 			uni.setNavigationBarTitle({
 				title: query.name || ''
