@@ -8,7 +8,7 @@
 		<view class="first-image-box">
 			<view class="new">今日最新</view>
 			<image  @click="goDetail(0)" class="first-image"
-					:src="totalDataList && totalDataList[0] && totalDataList[0].src"
+					:src="dataList && dataList[0] && dataList[0].src"
 					mode="widthFix">
 			</image>
 		</view>
@@ -16,7 +16,7 @@
 			<view v-for="(item, index) in dataList"
 				  v-if="index>0"
 				  @click="goDetail(index)"
-				  :key="item.src"
+				  :key="item.src + index"
 				  class="list-item">
 					<image class="img" :src="item.src" mode="aspectFill"></image>
 			</view>
@@ -98,6 +98,7 @@
 				this.showCount += 12
 			},
 			goDetail(index) {
+				console.log(index)
 				uni.previewImage({
 					current: this.totalDataList[index].src,
 					urls: this.totalDataList.map(e => e.src)

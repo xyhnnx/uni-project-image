@@ -73,10 +73,10 @@
 				height 50%
 				display block
 				background #fff
-				padding 3px
+				padding 2px
 				position absolute
-				bottom 10px
-				right 10px
+				bottom 12px
+				right 12px
 			.text-box
 				position absolute
 				padding 10px

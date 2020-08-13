@@ -2,7 +2,7 @@
 	<view class="new-page">
 		<view class="list-box">
 			<view v-for="(item, index) in dataList"
-				  @click="goDetail(index)"
+				  @tap="goDetail(index)"
 				  :key="item.src"
 				  class="list-item">
 					<image class="img" :src="item.src" mode="aspectFill"></image>
@@ -51,9 +51,10 @@
 				this.loadMoreText = ''
 			},
 			goDetail(index) {
+				console.log(index)
 				uni.previewImage({
-					current: this.totalDataList[index].src,
-					urls: [this.totalDataList[index].src]
+					current: this.dataList[index].src,
+					urls: [this.dataList[index].src]
 				})
 			},
 			async getListData() {
