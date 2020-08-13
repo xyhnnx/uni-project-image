@@ -79,6 +79,13 @@
 			}
 		},
 		{
+			"path": "pages/list/list2",
+			"style": {
+				"navigationBarTitleText": "专题",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
 			"path": "pages/img-search-list/img-search-list",
 			"style": {
 				"navigationBarTitleText": "搜索",

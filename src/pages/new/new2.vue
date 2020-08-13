@@ -40,11 +40,6 @@
 		computed: {
 			dataList () {
 				return this.totalDataList.filter((e , i) => i < this.showCount)
-			},
-			imageHeight () {
-				let windowWidth = uni.getSystemInfoSync().windowWidth
-				// 图片高度是宽度的2.16倍
-				this.imageHeight = windowWidth / 2 * 2.16
 			}
 		},
 		onReachBottom() {

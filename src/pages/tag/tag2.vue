@@ -28,7 +28,7 @@
 		methods: {
 			goList(value) {
 				uni.navigateTo({
-					url: `../list/list2?id=${value.id}`
+					url: `../list/list2?id=${value.id}&name=${value.name}`
 				})
 			},
 		},

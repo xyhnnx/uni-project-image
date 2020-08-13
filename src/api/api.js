@@ -43,7 +43,7 @@ export function getKaiYanTagList (data = {}) {
 
 export function getKaiYanTagItemList (data = {}) {
   let preFix = 'https://baobab.kaiyanapp.com'
-  let url = data.nextPageUrl || `${preFix}/api/v1/wallpapers/category`
+  let url = data.nextPageUrl || `${preFix}/api/v1/wallpapers/category?categoryId=${data.categoryId}`
   return request({
     url,
     method: 'get'

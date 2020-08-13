@@ -1,17 +1,5 @@
 <template>
 	<view class="new-page">
-		<view class="head-area">
-			<view class="name">必应壁纸</view>
-			<view class="tip">选取于微软必应精品壁纸</view>
-			<view class="count">- 共{{totalDataList.length}}张 -</view>
-		</view>
-		<view class="first-image-box">
-			<view class="new">今日最新</view>
-			<image  @click="goDetail(0)" class="first-image"
-					:src="totalDataList && totalDataList[0] && totalDataList[0].src"
-					mode="widthFix">
-			</image>
-		</view>
 		<view class="list-box">
 			<view v-for="(item, index) in dataList"
 				  v-if="index>0"
@@ -32,10 +20,11 @@
 		data() {
 			return {
 				categoryId: '',
-				totalDataList: []
+				totalDataList: [],
 				loadMoreText: '',
 				loading: false,
 				showCount: 10,
+				num: 10,
 				nextPageUrl: null
 			}
 		},
@@ -47,11 +36,6 @@
 					}
 				})
 			},
-			imageHeight () {
-				let windowWidth = uni.getSystemInfoSync().windowWidth
-				// 图片高度是宽度的2.16倍
-				this.imageHeight = windowWidth / 2 * 2.16
-			}
 		},
 		onReachBottom() {
 			console.log('滑动到页面底部')
@@ -59,13 +43,15 @@
 				this.loadMoreText = '已经到底啦'
 				return;
 			}
-			this.getData();
+			this.getData()
 		},
 
 		methods: {
 			async getData() {
 				this.showCount += this.num;
-				this.getListData()
+				this.loadMoreText = '加载中...'
+				await this.getListData()
+				this.loadMoreText = ''
 			},
 			goDetail(index) {
 				uni.previewImage({
@@ -77,7 +63,10 @@
 				if(this.loading) {
 					return
 				}
-				let data = {nextPageUrl: this.nextPageUrl}
+				let data = {
+					nextPageUrl: this.nextPageUrl,
+					categoryId: this.categoryId
+				}
 				this.loading = true
 				let res = await api.getKaiYanTagItemList(data)
 				this.loading = false
@@ -88,9 +77,13 @@
 			},
 		},
 		async onLoad(query) {
+			uni.setNavigationBarTitle({
+				title: query.name || ''
+			});
 			this.categoryId = query.id
 			await this.getListData()
 			await this.getListData()
+
 		},
 	}
 </script>
@@ -139,13 +132,13 @@
 	display flex
 	flex-wrap wrap
 	box-sizing border-box
-	padding 1px
+	padding 1px 0
 	.list-item
 		&:nth-child(2n)
 			.img
 				padding-right 0
 		width 50%
-		height calc(100vw / 2 * 2.16)
+		height calc(100vh / 2)
 		.img
 			box-sizing border-box
 			width 100%
