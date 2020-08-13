@@ -1,12 +1,12 @@
 <template>
 	<form class='loginView'>
-		<view class="input-view">
+		<view class="input-view-item">
 			<input class="input" type="digit" v-model="unitPrice" placeholder="请输入油价（元/升）"/>
 		</view>
-		<view class="input-view">
+		<view class="input-view-item">
 			<input class="input" type="digit" v-model="totalPrice" placeholder="加油的总价格（元）"/>
 		</view>
-		<view class="input-view">
+		<view class="input-view-item">
 			<input class="input" type="digit" v-model="km" placeholder="行驶里程数（公里）"/>
 		</view>
 		<view class="button-view">
@@ -162,6 +162,8 @@
 
 <style lang="stylus" scoped>
 	@import "../../uni.styl"
+	.input-view-item
+		border-bottom 1px solid $uni-border-color
 	.result-box
 		display flex
 		padding 20px 10px 10px;
@@ -173,10 +175,9 @@
 			margin-right 5px
 		.value
 			font-size 20px
-			color $uni-color-primary
+			color $uni-color-success
 	.history-box
 		display block
-		background-color #fff
 		border-radius 5px;
 		box-shadow $uni-box-shadow
 		margin 20px 10px;
@@ -204,5 +205,5 @@
 						font-size 12px
 					.value
 						font-size 14px
-						color $uni-color-primary
+						color $uni-color-success
 </style>
