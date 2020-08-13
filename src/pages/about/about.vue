@@ -139,7 +139,7 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	page,
 	view {
 		display: flex;
@@ -147,7 +147,6 @@
 
 	page {
 		min-height: 100%;
-		background-color: #FFFFFF;
 	}
 
 	image {

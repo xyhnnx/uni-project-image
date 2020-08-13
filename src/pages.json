@@ -12,7 +12,8 @@
 			"path": "pages/center/center",
 			"style": {
 				"navigationBarTitleText": "个人中心",
-				"enablePullDownRefresh": true
+				"enablePullDownRefresh": true,
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -135,7 +136,7 @@
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
-		"navigationBarTitleText": "看图",
+		"navigationBarTitleText": "xyhnnx",
 		"navigationBarBackgroundColor": "#111111",
 		"backgroundColor": "#111111"
 	},

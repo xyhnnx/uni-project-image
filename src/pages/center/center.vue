@@ -1,11 +1,20 @@
 <template>
 	<view class="center">
-		<view class="logo" @click="goLogin" :hover-class="!userInfo.isLogin ? 'logo-hover' : ''">
-			<image class="logo-img" :src="userInfo.avatarUrl ? userInfo.avatarUrl :avatarUrl"></image>
-			<view class="logo-title">
-				<text class="uer-name">Hi，{{userInfo.nickName ? userInfo.nickName : '您未登录'}}</text>
-				<text class="go-login navigat-arrow" v-if="!userInfo.isLogin">&#xe65e;</text>
-			</view>
+		<!--<view class="logo" @click="goLogin" :hover-class="!userInfo.isLogin ? 'logo-hover' : ''">-->
+			<!--<image class="logo-img" :src="userInfo.avatarUrl ? userInfo.avatarUrl :avatarUrl"></image>-->
+			<!--<view class="logo-title">-->
+				<!--<text class="uer-name">Hi，{{userInfo.nickName ? userInfo.nickName : '您未登录'}}</text>-->
+				<!--<text class="go-login navigat-arrow" v-if="!userInfo.isLogin">&#xe65e;</text>-->
+			<!--</view>-->
+		<!--</view>-->
+		<view class="logo" :hover-class="!userInfo.isLogin ? 'logo-hover' : ''">
+			<button class="get-user-button" @getuserinfo="getUserInfo" open-type="getUserInfo">
+				<image class="logo-img" mode="widthFix" :src="userInfo.avatarUrl ? userInfo.avatarUrl :avatarUrl"></image>
+				<view class="logo-title">
+					<view class="uer-name">{{userInfo.nickName ? userInfo.nickName : '点击授权用户信息'}}
+					</view>
+				</view>
+			</button>
 		</view>
 		<!--<view class="center-list">-->
 			<!--<view class="center-list-item border-bottom">-->
@@ -20,11 +29,6 @@
 			<!--</view>-->
 		<!--</view>-->
 		<view class="center-list" v-if="config.showUploadImage || userPower === -1">
-			<!--<view class="center-list-item border-bottom">-->
-				<!--<text class="list-icon">&#xe60b;</text>-->
-				<!--<text class="list-text">管理图片</text>-->
-				<!--<text class="navigat-arrow">&#xe65e;</text>-->
-			<!--</view>-->
 			<view class="center-list-item" @click="goUploadImg">
 				<text class="list-icon">&#xe61a;</text>
 				<text class="list-text">上传图片</text>
@@ -134,52 +138,49 @@
 		min-height: 100vh;
 	}
 	.logo {
-		width: 750upx;
-		height: 240upx;
-		padding: 20upx;
+		padding-top 50px
+		margin-bottom 20px
+		display: block;
+		width: 100%;
 		box-sizing: border-box;
-		background-color: $uni-list-item-color;
-		flex-direction: row;
-		align-items: center;
+		overflow: hidden;
+		.get-user-button {
+			display: flex;
+			width: 100%;
+			height: 100%;
+			background-color: transparent;
+			border: none;
+			padding: 20px 0 0;
+			margin: 0;
+			border-radius: 0;
+			justify-content: start;
+			align-items center
+			box-sizing: border-box;
+			overflow: hidden;
+			margin-top: -1px;
+		}
+		.logo-img {
+			width: 75px;
+			height: 75px;
+			border: 2px solid #fff;
+			margin 0 20px
+		}
+		.logo-title {
+			display: block;
+			text-align: center;
+			color: #fff;
+			.uer-name {
+				font-size: 16px;
+				line-height: 40px;
+			}
+			.phone-number {
+				font-size: 14px;
+			}
+		}
 	}
 
 	.logo-hover {
 		opacity: 0.8;
-	}
-
-	.logo-img {
-		width: 150upx;
-		height: 150upx;
-		border-radius: 150upx;
-	}
-
-	.logo-title {
-		height: 150upx;
-		flex: 1;
-		align-items: center;
-		justify-content: space-between;
-		flex-direction: row;
-		margin-left: 20upx;
-	}
-
-	.uer-name {
-		height: 60upx;
-		line-height: 60upx;
-		font-size: 38upx;
-		color: #FFFFFF;
-	}
-
-	.go-login.navigat-arrow {
-		font-size: 38upx;
-		color: #FFFFFF;
-	}
-
-	.login-title {
-		height: 150upx;
-		align-items: self-start;
-		justify-content: center;
-		flex-direction: column;
-		margin-left: 20upx;
 	}
 
 	.center-list {
@@ -198,8 +199,8 @@
 	}
 
 	.border-bottom {
-		border-bottom-width: 1upx;
-		border-color: #c8c7cc;
+		border-bottom-width: 0.5px;
+		border-color: $uni-border-color;
 		border-bottom-style: solid;
 	}
 

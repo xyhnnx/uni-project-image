@@ -50,17 +50,15 @@
 <style scoped lang="stylus">
 	.list-box
 		width 100%
-		display flex
-		flex-wrap wrap
 		box-sizing border-box
-		padding 5px 0 0 5px
+		display: grid;
+		grid-template-columns: 1fr 1fr
+		grid-gap: 10px;
+		grid-auto-rows: calc(100vh / 2)
+		padding 0
 		.list-item
 			position relative
-			/*&:nth-child(2n)*/
-			/*	padding-right 0*/
-			width 50%
-			height calc(100vh / 2)
-			padding 0 5px 5px 0
+			display block
 			box-sizing border-box
 			.img
 				box-sizing border-box
