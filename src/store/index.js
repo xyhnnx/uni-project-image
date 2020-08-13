@@ -14,6 +14,7 @@ const store = new Vuex.Store({
 		userInfo: {},
 		config: {},
 		tagList: [],
+		shareImgUrl: '',
 		userPower: 0, // -1 超管 1其他
 	},
 	mutations: {

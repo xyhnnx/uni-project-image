@@ -28,6 +28,10 @@
 <script>
 	import * as api from '../../api/api'
 	import * as util from '../../common/util'
+	import {
+		mapState,
+		mapMutations
+	} from 'vuex'
 	export default {
 		data() {
 			return {
@@ -58,6 +62,7 @@
 		// },
 
 		methods: {
+			...mapMutations(['getUserInfo','setStateData']),
 			getTotalListData () {
 				// 浏览器
 				// 渲染URL
@@ -89,6 +94,9 @@
 				})
 				if(res && res.images && res.images[0]) {
 					let preFix = 'https://cn.bing.com'
+					this.setStateData({
+						shareImgUrl: `${preFix}${res.images[0].url}`
+					})
 					this.totalDataList.unshift({
 						src: `${preFix}${res.images[0].url}`,
 					})

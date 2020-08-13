@@ -41,9 +41,18 @@
 				<text class="list-text">关于</text>
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
-            <view class="center-list-item border-bottom" @click="goAbout">
-                <text class="list-icon">&#xe603;</text>
-                <text class="list-text">分享</text>
+            <view class="center-list-item border-bottom">
+                <text class="list-icon">&#xe62d;</text>
+                <view class="list-text">
+					<button class="share common-open-type-button" open-type="share">分享好友</button>
+				</view>
+                <text class="navigat-arrow">&#xe65e;</text>
+            </view>
+			<view class="center-list-item border-bottom">
+                <text class="list-icon">&#xe609;</text>
+                <view class="list-text">
+					<button class="share common-open-type-button" open-type="feedback">反馈建议</button>
+				</view>
                 <text class="navigat-arrow">&#xe65e;</text>
             </view>
 			<view class="center-list-item" @click="toImgOcr" v-if="config.showImageRecognition">
@@ -86,7 +95,7 @@
 				avatarUrl: '/static/logo.png',
 			}
 		},
-		computed: mapState(['userInfo','config', 'userPower']),
+		computed: mapState(['userInfo','config', 'userPower', 'shareImgUrl']),
 		methods: {
 			...mapMutations(['getUserInfo','setStateData']),
             getUserInfoClick (e) {
@@ -149,12 +158,19 @@
 		  console.log(this.userPower,'userPower')
         uni.stopPullDownRefresh();
       },
-      // 加了这个页面才可以被分享
-      onShareAppMessage () {
-      },
+       // 加了这个页面才可以被分享
+		onShareAppMessage: function (res) {
+			if (res.from === 'button') {
+				// 来自页面内转发按钮
+				console.log(res.target)
+			}
+			return {
+				imageUrl: this.shareImgUrl,
+				path: '/pages/new/new2'
+			}
+		},
 		onLoad() {
 			this.getUserInfo()
-
 		}
 	}
 </script>
@@ -246,8 +262,8 @@
 	.list-text {
 		height: 90upx;
 		line-height: 90upx;
-		font-size: 34upx;
-		color: #555;
+		font-size: 14px;
+		color: $uni-text-color;
 		flex: 1;
 		text-align: left;
 	}
@@ -260,5 +276,10 @@
 		color: #555;
 		text-align: right;
 		font-family: texticons;
+	}
+	.share {
+		font-size 14px
+		line-height: 90upx
+		width 100%
 	}
 </style>
