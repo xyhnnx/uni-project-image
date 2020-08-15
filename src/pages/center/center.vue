@@ -38,7 +38,7 @@
 		<view class="center-list">
 			<view class="center-list-item border-bottom" @click="goAbout">
 				<text class="list-icon">&#xe603;</text>
-				<text class="list-text">关于</text>
+				<text class="list-text">{{(config && config.notice && config.notice.entryName) || '关于'}}</text>
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
             <view class="center-list-item border-bottom">

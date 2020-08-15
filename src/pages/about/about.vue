@@ -8,7 +8,13 @@
 				<!-- #ifdef H5 -->
 				<image src="//img.cdn.aliyun.dcloud.net.cn/stream/qr/__UNI__FAD3FD9.png/256"></image>
 				<!-- #endif -->
-				<text class="tip">微信号：xyhnnx</text>
+				<text class="tip">{{notice.title || ''}}</text>
+				<view class="content-box">
+					<view class="item" v-for="(item, index) in notice.content" :key="index">
+						{{item.label || ''}}
+					</view>
+				</view>
+				<text class="time">{{notice.time || ''}}</text>
 			</view>
 			<view class="desc">
 			</view>
@@ -25,52 +31,21 @@
 </template>
 
 <script>
+	import {mapState} from "vuex";
 	export default {
 		data() {
 			return {
 				providerList: [],
+				notice: {},
 				version: '',
 				sourceLink: 'https://github.com/dcloudio/uni-template-picture'
 			}
 		},
-		// #ifdef APP-PLUS
+		computed: mapState(['config']),
 		onLoad() {
-			this.version = plus.runtime.version;
-			uni.getProvider({
-				service: 'share',
-				success: (e) => {
-					let data = [];
-					for (let i = 0; i < e.provider.length; i++) {
-						switch (e.provider[i]) {
-							case 'weixin':
-								data.push({
-									name: '分享到微信好友',
-									id: 'weixin'
-								})
-								data.push({
-									name: '分享到微信朋友圈',
-									id: 'weixin',
-									type: 'WXSenceTimeline'
-								})
-								break;
-							case 'qq':
-								data.push({
-									name: '分享到QQ',
-									id: 'qq'
-								})
-								break;
-							default:
-								break;
-						}
-					}
-					this.providerList = data;
-				},
-				fail: (e) => {
-					console.log('获取登录通道失败' + JSON.stringify(e));
-				}
-			});
+			console.log(this.config)
+			this.notice = this.config && this.config.notice
 		},
-		// #endif
 		methods: {
 			// #ifdef APP-PLUS
 			save() {
@@ -139,7 +114,25 @@
 	}
 </script>
 
-<style scoped>
+<style scoped lang="stylus">
+	.time
+		text-align right
+		margin-top 20px
+		width 100%
+		font-size 10px
+	.content-box
+		display block
+		width 100%
+		.item
+			display block
+			text-align left
+			line-height 40px
+	.tip
+		width 100%
+		text-align center
+		margin-top: 30px
+		margin-bottom 20px
+		font-size 18px
 	page,
 	view {
 		display: flex;

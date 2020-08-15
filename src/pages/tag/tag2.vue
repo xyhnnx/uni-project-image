@@ -46,6 +46,9 @@
 		onShareAppMessage () {
 		},
 		async onLoad() {
+			if(!(this.tagList && this.tagList.length)) {
+				this.$store.commit('getTagList')
+			}
 		}
 	}
 </script>

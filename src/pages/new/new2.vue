@@ -2,7 +2,7 @@
 	<view class="new-page">
 		<view class="head-area">
 			<view class="name">必应壁纸</view>
-			<view class="tip">选取于微软必应精品壁纸</view>
+			<view class="tip">选自于微软必应高清壁纸，每日更新</view>
 			<view class="count">- 共{{totalDataList.length}}张 -</view>
 		</view>
 		<view class="first-image-box">
@@ -12,6 +12,7 @@
 					mode="widthFix">
 			</image>
 		</view>
+		<view class="copyright">{{dataList && dataList[0] && dataList[0].copyright}}</view>
 		<view class="list-box">
 			<view v-for="(item, index) in dataList"
 				  v-if="index>0"
@@ -98,6 +99,7 @@
 						shareImgUrl: `${preFix}${res.images[0].url}`
 					})
 					this.totalDataList.unshift({
+						copyright: res.images[0].copyright,
 						src: `${preFix}${res.images[0].url}`,
 					})
 				}
@@ -130,6 +132,12 @@
 .new-page
 	display block
 	width 100%
+.copyright
+	width 100%
+	box-sizing border-box
+	display flex
+	font-size 10px
+	padding 5px 5px 20px
 .head-area
 	padding-top: 70px;
 	display flex
