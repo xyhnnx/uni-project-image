@@ -3,19 +3,21 @@
 		<view v-for="(value, index) in tagList"
 			  @tap="goList(value)"
 			  :key="index"
-			  class="list-item">
-			<image class="img"
-				   :src="value.coverBlurred"
-				   mode="aspectFill">
-			</image>
-			<image class="img-cover"
-				   :src="value.cover"
-				   mode="aspectFill">
-			</image>
-			<view class="text-box">
-				<view class="name">{{value.name}}</view>
-				<view class="des">{{value.description}}</view>
-				<view class="count">- {{value.count}}张 -</view>
+			  class="list-item-wrap">
+			<view class="list-item">
+				<image class="img"
+					   :src="value.coverBlurred"
+					   mode="aspectFill">
+				</image>
+				<image class="img-cover"
+					   :src="value.cover"
+					   mode="aspectFill">
+				</image>
+				<view class="text-box">
+					<view class="name">{{value.name}}</view>
+					<view class="des">{{value.description}}</view>
+					<view class="count">- {{value.count}}张 -</view>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -57,49 +59,53 @@
 	.list-box
 		width 100%
 		box-sizing border-box
-		display: grid;
-		grid-template-columns: 1fr 1fr
-		grid-gap: 10px;
-		grid-auto-rows: calc(100vh / 2)
+		display: flex
+		flex-wrap wrap
 		padding 0
-		.list-item
-			position relative
-			display block
-			box-sizing border-box
-			.img
+		.list-item-wrap
+			width 50%
+			height calc(100vh / 2)
+			.list-item
+				position relative
+				display block
 				box-sizing border-box
 				width 100%
-				height 100%
-				display block
-			.img-cover
-				box-sizing border-box
-				width 50%
-				height 50%
-				display block
-				background #fff
-				padding 2px
-				position absolute
-				bottom 12px
-				right 12px
-			.text-box
-				position absolute
-				padding 10px
-				top 0
-				left 0
-				right 0
-				bottom 50%
-				z-index 2
-				display flex
-				flex-direction column
-				.name
-					color #fff
-					font-size 24px
-					line-height 50px
-					margin-top 20px
-				.des
-					color #fff
-					font-size 10px
-				.count
-					color #fff
-					font-size 12px
+				height: 100%
+				.img
+					box-sizing border-box
+					width 100%
+					height 100%
+					display block
+				.img-cover
+					box-sizing border-box
+					width 50%
+					height 50%
+					display block
+					background #fff
+					padding 2px
+					position absolute
+					bottom 12px
+					right 12px
+				.text-box
+					position absolute
+					padding 10px
+					top 0
+					left 0
+					right 0
+					bottom 50%
+					z-index 2
+					display flex
+					flex-direction column
+					.name
+						color #fff
+						font-size 30px
+						line-height 50px
+						margin-top 20px
+					.des
+						color #fff
+						font-size 10px
+					.count
+						color #fff
+						line-height 30px
+						font-size 18px
 </style>
