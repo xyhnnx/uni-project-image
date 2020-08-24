@@ -68,22 +68,19 @@
 			getTotalListData () {
 				// 浏览器
 				// 渲染URL
-				const prefix = `https://6d65-me-oacid-1300610701.tcb.qcloud.la`;
+				const prefix = `http://cdn.mrabit.com`;
 				let stop = false;
 				let nowTime = new Date().getTime();
 				let arr = []
 				while (!stop) {
 					nowTime = nowTime - (24 * 60 * 60 * 1000)
-					let timeStr = util.dateFormat(nowTime, 'yyyyMMdd')
-					let url = `${prefix}/BING/${timeStr}.jpg`
-					if(['20200809','20200609','20200604','20200610','20200417'].includes(timeStr)) {
-					} else {
-						arr.push({
-							src: url,
-							label: timeStr
-						})
-					}
-					if (nowTime <= new Date('2019-01-01').getTime()) {
+					let timeStr = util.dateFormat(nowTime, 'yyyy-MM-dd')
+					let url = `${prefix}/1920.${timeStr}.jpg`
+					arr.push({
+						src: url,
+						label: timeStr
+					})
+					if (nowTime <= new Date('2017-01-01').getTime()) {
 						stop = true
 					}
 				}
