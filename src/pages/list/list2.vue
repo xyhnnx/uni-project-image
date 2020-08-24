@@ -51,10 +51,9 @@
 				this.loadMoreText = ''
 			},
 			goDetail(index) {
-				console.log(index)
 				uni.previewImage({
 					current: this.dataList[index].src,
-					urls: [this.dataList[index].src]
+					urls: this.dataList.map(e => e.src)
 				})
 			},
 			async getListData() {

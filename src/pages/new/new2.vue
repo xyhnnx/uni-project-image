@@ -14,12 +14,12 @@
 		</view>
 		<view class="copyright">{{dataList && dataList[0] && dataList[0].copyright}}</view>
 		<view class="list-box">
-			<view v-for="(item, index) in dataList"
+			<view v-for="(value, index) in dataList"
 				  v-if="index>0"
 				  @click="goDetail(index)"
-				  :key="item.src + index"
+				  :key="value.src + index"
 				  class="list-item">
-					<image class="img" :src="item.src" mode="aspectFill"></image>
+					<image class="img" :src="value.src" :data-src="value.src"  @error="imgError" mode="aspectFill"></image>
 			</view>
 		</view>
 		<text v-if="loadMoreText" class="loadMore">{{loadMoreText}}</text>
@@ -43,6 +43,7 @@
 			}
 		},
 		computed: {
+			... mapState(['userInfo','config', 'userPower', 'shareImgUrl']),
 			dataList () {
 				return this.totalDataList.filter((e , i) => i < this.showCount)
 			}
@@ -108,13 +109,17 @@
 				this.showCount += 12
 			},
 			goDetail(index) {
-				console.log(index)
 				uni.previewImage({
 					current: this.totalDataList[index].src,
 					urls: this.totalDataList.map(e => e.src)
 				})
 			},
 			share(e) {
+			},
+			imgError (value) {
+				let src = value.currentTarget.dataset.src
+				let index = this.totalDataList.findIndex(e => e.src === src)
+				this.totalDataList.splice(index,1)
 			}
 		},
 		// 加了这个页面才可以被分享

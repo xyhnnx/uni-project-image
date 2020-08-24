@@ -80,6 +80,11 @@
 				<text class="list-text">获取二维码</text>
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
+			<view class="center-list-item" @click="toOtherMiniProgram(value)"  v-for="(value, index) in shareList" :key="index">
+				<text class="xyh-icon list-icon">&#xe61f;</text>
+				<text class="list-text">{{value.shareText || '更多'}}</text>
+				<text class="navigat-arrow">&#xe65e;</text>
+			</view>
 		</view>
 	</view>
 </template>
@@ -95,9 +100,26 @@
 				avatarUrl: '/static/logo.png',
 			}
 		},
-		computed: mapState(['userInfo','config', 'userPower', 'shareImgUrl']),
+		computed: {
+			... mapState(['userInfo','config', 'userPower', 'shareImgUrl']),
+			shareList () {
+				let arr = []
+				if(this.config && this.config.shareMiniProgramList) {
+					return  this.config.shareMiniProgramList
+				}
+				return arr
+			}
+		},
 		methods: {
 			...mapMutations(['getUserInfo','setStateData']),
+			toOtherMiniProgram (item) {
+				wx.navigateToMiniProgram({
+					appId: item.appId,
+					success(res) {
+						// 打开成功1
+					}
+				})
+			},
             getUserInfoClick (e) {
               e.detail.userInfo.isLogin = true
               wx.cloud.init()                              //调用前需先调用init
