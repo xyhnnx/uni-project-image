@@ -1,5 +1,6 @@
 <template>
 	<view class="new-page">
+		<ad-custom v-if="config && config.showAd" unit-id="adunit-dbe74d485767b19f"></ad-custom>
 		<view class="list-box">
 			<view v-for="(item, index) in dataList"
 				  @tap="goDetail(index)"
@@ -15,6 +16,7 @@
 <script>
 	import * as api from '../../api/api'
 	import * as util from '../../common/util'
+	import {mapState} from "vuex";
 	export default {
 		data() {
 			return {
@@ -27,6 +29,7 @@
 			}
 		},
 		computed: {
+			...mapState(['config']),
 			dataList () {
 				return this.totalDataList.map(e => {
 					return {

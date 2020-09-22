@@ -13,6 +13,7 @@
 			</image>
 		</view>
 		<view class="copyright">{{dataList && dataList[0] && dataList[0].copyright}}</view>
+		<ad-custom v-if="config && config.showAd" unit-id="adunit-dbe74d485767b19f"></ad-custom>
 		<view class="list-box">
 			<view v-for="(value, index) in dataList"
 				  v-if="index>0"
@@ -20,6 +21,9 @@
 				  :key="value.src + index"
 				  class="list-item">
 					<image class="img" :src="value.src" :data-src="value.src"  @error="imgError" mode="aspectFill"></image>
+					<ad-custom v-if="index % 15 === 0 && config && config.showAd" unit-id="adunit-3ccae9420de91cc3"></ad-custom>
+					<ad-custom v-else-if="index % 10 === 0 && config && config.showAd" unit-id="adunit-d213c6836dda2ce5"></ad-custom>
+					<ad v-else-if="index % 5 === 0 && config && config.showAd" unit-id="adunit-768b4c9a310a7c9c" ad-type="video" ad-theme="black"></ad>
 			</view>
 		</view>
 		<text v-if="loadMoreText" class="loadMore">{{loadMoreText}}</text>
@@ -166,7 +170,7 @@
 	.first-image
 		width 100%
 		box-sizing border-box
-		padding 0 1px
+		padding 0
 	.new
 		position absolute
 		right 0
@@ -180,13 +184,14 @@
 	display flex
 	flex-wrap wrap
 	box-sizing border-box
-	padding 1px
+	padding 0
 	.list-item
+		display block
 		width 100%
 		.img
 			box-sizing border-box
 			width 100%
-			padding 0 1px 1px 0
+			padding 0
 			display block
 
 </style>

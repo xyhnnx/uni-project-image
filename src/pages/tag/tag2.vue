@@ -36,13 +36,27 @@
 				search: ''
 			}
 		},
-		computed: mapState(['tagList']),
+		computed: mapState(['tagList', 'config']),
 		methods: {
 			goList(value) {
 				uni.navigateTo({
 					url: `../list/list2?id=${value.id}&name=${value.name}`
 				})
 			},
+			showInterstitialAd () {
+				// 在页面中定义插屏广告
+				let interstitialAd = null
+				// 在页面onLoad回调事件中创建插屏广告实例
+				if (wx.createInterstitialAd && this.config && this.config.showAd) {
+					interstitialAd = wx.createInterstitialAd({
+						adUnitId: 'adunit-e59ec30af04a3191'
+					})
+					interstitialAd.onLoad(() => {})
+					interstitialAd.onError((err) => {})
+					interstitialAd.onClose(() => {})
+					interstitialAd.show()
+				}
+			}
 		},
 		// 加了这个页面才可以被分享
 		onShareAppMessage () {
@@ -51,6 +65,9 @@
 			if(!(this.tagList && this.tagList.length)) {
 				this.$store.commit('getTagList')
 			}
+			setTimeout(() => {
+				this.showInterstitialAd()
+			}, 1000)
 		}
 	}
 </script>

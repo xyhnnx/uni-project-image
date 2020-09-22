@@ -85,11 +85,20 @@
 				<text class="list-text">{{value.shareText || '更多'}}</text>
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
+			<view class="center-list-item" @click="appreciate" v-if="config && config.lookAdBtn">
+				<text class="list-icon">&#xe609;</text>
+				<text class="list-text">{{config.lookAdBtn}}</text>
+				<text class="navigat-arrow">&#xe65e;</text>
+			</view>
+			<view class="bottom-ad">
+				<ad-custom v-if="config && config.showAd" unit-id="adunit-dbe74d485767b19f"></ad-custom>
+			</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import * as common from '../../common/common'
 	import {
 		mapState,
 		mapMutations
@@ -98,6 +107,7 @@
 		data() {
 			return {
 				avatarUrl: '/static/logo.png',
+				videoAd: null
 			}
 		},
 		computed: {
@@ -172,6 +182,39 @@
 				uni.navigateTo({
 					url: '/pages/image-upload/image-upload'
 				});
+			},
+			appreciate() {
+				common.showVideoAd(this.videoAd)
+			},
+			addVideoAd () {
+				// 在页面onLoad回调事件中创建激励视频广告实例
+				if (wx.createRewardedVideoAd) {
+					this.videoAd = wx.createRewardedVideoAd({
+						adUnitId: 'adunit-61df3d93be44e250'
+					})
+					this.videoAd.onLoad(() => {
+					})
+					this.videoAd.onError((err) => {
+						console.log('videoAd.onError', err)
+					})
+					this.videoAd.onClose((res) => {
+						// 用户点击了【关闭广告】按钮
+						if (res && res.isEnded) {
+							uni.showModal({
+								title: '提示',
+								showCancel: false,
+								content: `感谢您的支持!`,
+								success: function (res) {
+									if (res.confirm) {
+									} else if (res.cancel) {
+									}
+								}
+							})
+						} else {
+							// 播放中途退出，不下发游戏奖励
+						}
+					})
+				}
 			}
 		},
       async onPullDownRefresh() {
@@ -193,6 +236,8 @@
 		},
 		onLoad() {
 			this.getUserInfo()
+			// 挂载视频广告
+			this.addVideoAd()
 		}
 	}
 </script>
@@ -303,5 +348,13 @@
 		font-size 14px
 		line-height: 90upx
 		width 100%
+	}
+	.bottom-ad{
+		display block
+		position fixed
+		width 100%
+		bottom 0
+		left 0
+		right 0
 	}
 </style>
