@@ -1,15 +1,17 @@
 <script>
 	export default {
 		onLaunch: function() {
-			console.log('App Launch')
-          wx.cloud.init({
-            env: 'test-xyh',
-            traceUser: true
-          }) //调用前需先调用init
-          console.log('wx.cloud.init()')
-          this.$store.commit('getConfig')
-          this.$store.commit('getUserPower')
-          this.$store.commit('getTagList')
+            // #ifdef  MP-WEIXIN
+            console.log('App Launch')
+            wx.cloud.init({
+                env: 'test-xyh',
+                traceUser: true
+            }) //调用前需先调用init
+            console.log('wx.cloud.init()')
+            this.$store.commit('getConfig')
+            this.$store.commit('getUserPower')
+            // #endif
+            this.$store.commit('getTagList')
 		},
 		onShow: function() {
 			console.log('App Show')

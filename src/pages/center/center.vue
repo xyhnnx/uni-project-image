@@ -220,7 +220,7 @@
       async onPullDownRefresh() {
         await this.$store.commit('getConfig')
 		await this.$store.commit('getUserPower')
-		  console.log(this.userPower,'userPower')
+		console.log(this.userPower,'userPower')
         uni.stopPullDownRefresh();
       },
        // 加了这个页面才可以被分享

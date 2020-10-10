@@ -40,7 +40,7 @@
 		methods: {
 			goList(value) {
 				uni.navigateTo({
-					url: `../list/list2?id=${value.id}&name=${value.name}`
+					url: `/pages/list/list2?id=${value.id}&name=${value.name}`
 				})
 			},
 			showInterstitialAd () {
@@ -66,7 +66,9 @@
 				this.$store.commit('getTagList')
 			}
 			setTimeout(() => {
+				// #ifdef  MP-WEIXIN
 				this.showInterstitialAd()
+				// #endif
 			}, 1000)
 		}
 	}

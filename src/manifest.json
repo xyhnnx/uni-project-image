@@ -24,6 +24,14 @@
 		},
 		"usingComponents": true
 	},
+	"mp-qq": {
+		"appid" : "1111012985",
+		"cloudfunctionRoot": "./functions/",
+		"setting": {
+			"urlCheck": false
+		},
+		"usingComponents": true
+	},
 	"mp-alipay": {
 		"usingComponents": true
 	},

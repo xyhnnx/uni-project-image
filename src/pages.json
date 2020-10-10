@@ -156,13 +156,16 @@
 				"iconPath": "static/tag-0.png",
 				"selectedIconPath": "static/tag-1.png",
 				"text": "分类"
-			},
+			}
+			// #ifdef  MP-WEIXIN
+			,
 			{
 				"pagePath": "pages/center/center",
 				"iconPath": "static/center-0.png",
 				"selectedIconPath": "static/center-1.png",
 				"text": "我的"
 			}
+			// #endif
 		]
 	},
 	"window": {

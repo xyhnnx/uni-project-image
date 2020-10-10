@@ -21,6 +21,7 @@
 				  :key="value.src + index"
 				  class="list-item">
 					<image class="img" :src="value.src" :data-src="value.src"  @error="imgError" mode="aspectFill"></image>
+					<view class="copyright" v-if="value.copyright">{{value.copyright}}</view>
 					<ad-custom v-if="index % 15 === 0 && config && config.showAd" unit-id="adunit-3ccae9420de91cc3"></ad-custom>
 					<ad-custom v-else-if="index % 10 === 0 && config && config.showAd" unit-id="adunit-d213c6836dda2ce5"></ad-custom>
 					<ad v-else-if="index % 5 === 0 && config && config.showAd" unit-id="adunit-768b4c9a310a7c9c" ad-type="video" ad-theme="black"></ad>
@@ -74,7 +75,7 @@
 				// 渲染URL
 				const prefix = `http://cdn.mrabit.com`;
 				let stop = false;
-				let nowTime = new Date().getTime();
+				let nowTime = new Date().getTime() - (8 * 24 * 60 * 60 * 1000);
 				let arr = []
 				while (!stop) {
 					nowTime = nowTime - (24 * 60 * 60 * 1000)
@@ -93,6 +94,7 @@
 			async getBingImg () {
 				let res = await api.getBingImg({
 					idx: 0,
+					n: 8,
 					nc: new Date().getTime()
 				})
 				if(res && res.images && res.images[0]) {
@@ -100,10 +102,12 @@
 					this.setStateData({
 						shareImgUrl: `${preFix}${res.images[0].url}`
 					})
-					this.totalDataList.unshift({
-						copyright: res.images[0].copyright,
-						src: `${preFix}${res.images[0].url}`,
-					})
+					this.totalDataList.unshift(...res.images.map(e =>{
+						return {
+							copyright: e.copyright,
+							src: `${preFix}${e.url}`,
+						}
+					}))
 				}
 			},
 			async getData() {
