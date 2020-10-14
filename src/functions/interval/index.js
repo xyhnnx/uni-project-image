@@ -51,6 +51,7 @@ async function getImg(params = {}) {
           data: {
             dbName: 'commonImageList',
             primaryKey: 'src',
+            // url 字段里的‘1920x1080’替换未‘UHD’然后把.jpg 后的参数 去掉；可以得到更高清的图片
             list: [
               {
                 src: `${preFix}${data.url}`,
